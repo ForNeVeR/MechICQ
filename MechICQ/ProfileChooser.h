@@ -226,7 +226,7 @@ private: System::Void createProfileButton_Click(System::Object^  sender, System:
 	{
 		String^ profileName = profileNameBox->Text;
 		// Заносим UIN в файл настроек профиля
-		IniFile^ pOptions = gcnew IniFile(GlobalOptions::programPath + "\\" + profileName + "\\options.ini"); 
+		IniFile^ pOptions = gcnew IniFile(GlobalOptions::ProgramPath + "\\" + profileName + "\\options.ini"); 
 		pOptions->setParameter("Main","UIN",UINBox->Text);
 		pOptions->Close();
 		pOptions = nullptr;
@@ -242,7 +242,7 @@ private: System::Void createProfileButton_Click(System::Object^  sender, System:
 private: System::Void ProfileChooser_Load(System::Object^  sender, System::EventArgs^  e)
 {
 	// Cчитываем названия профилей из файла настроек
-	options = gcnew IniFile(GlobalOptions::programPath + "\\options.ini");
+	options = gcnew IniFile(GlobalOptions::ProgramPath + "\\options.ini");
 	int profileCount = 0;
 	String^ buff = options->getParameter("Profiles","ProfilesCount");
 	if(buff != "")
@@ -251,7 +251,7 @@ private: System::Void ProfileChooser_Load(System::Object^  sender, System::Event
 	{
 		// Считываем названия профилей и UIN'ы
 		String^ profileName = options->getParameter("Profiles","" + i);
-		IniFile^ pOptions = gcnew IniFile(GlobalOptions::programPath + "\\" + profileName + "\\options.ini");
+		IniFile^ pOptions = gcnew IniFile(GlobalOptions::ProgramPath + "\\" + profileName + "\\options.ini");
 		if(pOptions->getParameter("Main","UIN") != "")
 		{
 			unsigned __int64 uin = Convert::ToUInt64(pOptions->getParameter("Main","UIN"));
@@ -300,7 +300,7 @@ private: System::Void okButton_Click(System::Object^  sender, System::EventArgs^
 		options->setParameter("Profiles","" + (i + 1), buff);
 	}
 	options->setParameter("Profiles","ProfilesCount","" + profileBox->Items->Count);
-	GlobalOptions::profilePath = GlobalOptions::programPath + "\\" + profileBox->Items[profileBox->SelectedIndex];
+	GlobalOptions::ProfilePath = GlobalOptions::ProgramPath + "\\" + profileBox->Items[profileBox->SelectedIndex];
 	this->Close();
 }
 

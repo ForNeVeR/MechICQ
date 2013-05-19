@@ -1,16 +1,12 @@
-﻿/* Этот файл содержит класс, хранящий разные глобальные настройки программы типа UIN'а, пароля и
-   т.д.
-   Всякие общие #define'ы тоже кидать сюда.
-*/
-
-#pragma once
+﻿#pragma once
 
 using namespace System;
 
-ref struct GlobalOptions
+ref class GlobalOptions abstract sealed
 {
-	static String^ programPath;
-	static String^ profilePath;
-	static unsigned __int64 UIN;
-	static String^ password;
+public:
+	static property String ^ProgramPath;
+	static property String ^ProfilePath;
+	static property Nullable<UInt64> Uin;
+	static property String ^password;
 };

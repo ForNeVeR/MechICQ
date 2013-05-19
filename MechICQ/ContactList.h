@@ -129,7 +129,7 @@ public: static CommonClass^ common;*/
 private: System::Void ContactList_Load(System::Object^  sender, System::EventArgs^  e)
 {
 	// Считываем последний статус и, если это не оффлайн, подключаемся и устанавливаем его.
-	IniFile^ pOptions = gcnew IniFile(GlobalOptions::profilePath + "\\options.ini"); 
+	IniFile^ pOptions = gcnew IniFile(GlobalOptions::ProfilePath + "\\options.ini"); 
 }
 };
 }
