@@ -131,8 +131,6 @@
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="resource.h" />
-    <ClInclude Include="MHeader.h" />
-    <ClInclude Include="Protocol_high_lvl.h" />
     <ClInclude Include="Protocol_low_lvl.h" />
   </ItemGroup>
   <ItemGroup>

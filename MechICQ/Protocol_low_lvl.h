@@ -1,10 +1,5 @@
 ﻿#pragma once
 
-//#include "Form1.h"
-//#include "ContactList.h"
-//#include "CommonClass.cpp"
-
-//#include "MHeader.h"
 // Для loginStatus
 #define LS_DISCONNECTED 0
 #define LS_LOGIN 1
@@ -16,8 +11,6 @@ using namespace System;
 using namespace System::Net::Sockets;
 using namespace System::IO;
 using namespace System::Threading;
-
-//using namespace ICQ_client;
 
 public ref class CommonClass
 {
@@ -86,16 +79,4 @@ public ref class CommonClass
 	public: static int createCLI_COOKIE(array<Byte>^ packet);
 	public: static int createCLI_SETxSTATUS(array<Byte>^ packet);
 	public: static int createCLI_SEND_ICBM_CH1(array<Byte>^ packet, String^ toWho, array<Byte>^ messageToSend, bool sendOffline);
-
-/*	// === Оконная часть ===
-
-	// Константы
-
-	// Переменные
-//	public: static Form1^ form1;
-//	public: static ContactList^ contactList;
-
-	// Функции
-	public: static System::Void updateLoginBar();
-	public: static System::Void terminate();*/
 };

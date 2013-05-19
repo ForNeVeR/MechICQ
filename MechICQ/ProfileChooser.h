@@ -1,5 +1,4 @@
-﻿// TODO: Нормальная работа с options.ini
-#pragma once
+﻿#pragma once
 
 #include "IniFile.h"
 #include "GlobalOptions.h"

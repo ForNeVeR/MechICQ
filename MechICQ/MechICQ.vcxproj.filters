@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
     </Filter>
-    <Filter Include="Trash">
-      <UniqueIdentifier>{db25d747-4ff0-4ac9-85c6-851320d3d433}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Protocol">
       <UniqueIdentifier>{04aee730-cc79-4f00-92c6-89370d15da99}</UniqueIdentifier>
     </Filter>
@@ -58,12 +55,6 @@
     </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MHeader.h">
-      <Filter>Trash</Filter>
-    </ClInclude>
-    <ClInclude Include="Protocol_high_lvl.h">
-      <Filter>Protocol</Filter>
     </ClInclude>
     <ClInclude Include="Protocol_low_lvl.h">
       <Filter>Protocol</Filter>
