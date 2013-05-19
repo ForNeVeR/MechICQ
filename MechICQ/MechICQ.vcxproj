@@ -115,7 +115,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="ProfileChooser.cpp" />
     <ClCompile Include="ConnectForm.cpp" />
-    <ClCompile Include="CommonClass.cpp" />
+    <ClCompile Include="Protocol.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ContactList.h">
@@ -131,7 +131,7 @@
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="resource.h" />
-    <ClInclude Include="Protocol_low_lvl.h" />
+    <ClInclude Include="Protocol.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="app.ico" />

@@ -1,18 +1,18 @@
 ﻿#pragma once
 
-#include "Protocol_low_lvl.h"
+#include "Protocol.h"
 
 using namespace System;
 using namespace System::Text;
 using namespace System::Windows::Forms;
 
-CommonClass::CommonClass()
+Protocol::Protocol()
 {
 }
 
 // === Служеюные функции ===
 
-String^ CommonClass::hexNumber(Byte byte)
+String^ Protocol::hexNumber(Byte byte)
 // Функция выдаёт шестнадцатеричное число в виде строки типа "0A" в отличие от System::Convert::ToString(byte,16) (возвратит "a")
 {
 	String^ buff = System::Convert::ToString(byte,16);
@@ -24,7 +24,7 @@ String^ CommonClass::hexNumber(Byte byte)
 
 // === Функции обработки поступающих пакетов ===
 
-bool CommonClass::flapHeaderOk(array<Byte>^ header)
+bool Protocol::flapHeaderOk(array<Byte>^ header)
 // Функция, проверяет FLAP-заголовок пакета. Результат - в порядке ли заголовок. Просматривает
 // только первые 2 байта пакета.
 {
@@ -46,7 +46,7 @@ bool CommonClass::flapHeaderOk(array<Byte>^ header)
 		return false;
 }
 
-int CommonClass::getTlv(array<Byte>^ packet, int pSize, int typeOfTlv, int offset)
+int Protocol::getTlv(array<Byte>^ packet, int pSize, int typeOfTlv, int offset)
 // Функция выдаёт индекс первого байта запрошенного TLV-пакета или 0, если пакет не найден.
 // Для работы нужен размер пакета (ведь переменная-то > 64 кб! Не проверять же её всю!)
 // Также задаётся смещение (на случай, если в пакете в начале есть SNAC-заголовки или ещё чего-нибудь.
@@ -67,7 +67,7 @@ int CommonClass::getTlv(array<Byte>^ packet, int pSize, int typeOfTlv, int offse
 	return 0;
 }
 
-System::Void CommonClass::determine (array<Byte>^ packet)
+System::Void Protocol::determine (array<Byte>^ packet)
 // Данная функция определяет тип поступившего пакета и дальнейшие действия.
 {
 	// Пакет мы проверили сразу по получении, так что тут никаких проблем с ним возникнуть не должно.
@@ -405,7 +405,7 @@ System::Void CommonClass::determine (array<Byte>^ packet)
 	}
 }
 
-System::Void CommonClass::mHandling()
+System::Void Protocol::mHandling()
 // Данная функция работает в потоке и обрабатывает все получаемые с серверов сообщения.
 // Запускается, естественно, пару раз для каждой попытки подключения.
 {
@@ -438,7 +438,7 @@ System::Void CommonClass::mHandling()
 
 // === Функции создания и отправки пакетов ===
 
-System::Void CommonClass::sendFlap(array<Byte>^ packet, int size)
+System::Void Protocol::sendFlap(array<Byte>^ packet, int size)
 // Функция отправляет пакет на текущий подключенный сервер и заливает этот пакет в лог.
 {
 	// Работа с rate-limits
@@ -485,7 +485,7 @@ System::Void CommonClass::sendFlap(array<Byte>^ packet, int size)
 	server->Write(packet,0,size);
 }
 
-int CommonClass::emptyFlap(array<Byte>^ packet, int channel)
+int Protocol::emptyFlap(array<Byte>^ packet, int channel)
 // Инициализирует пустой FLAP-пакет, т.е. добавляет только заголовок в 6 байт, содержащий номер канала и sequence number.
 // Возвращает индекс первого байта, подлжащего записи (т.е. 6), что можно также назвать длиной пакета.
 {
@@ -502,7 +502,7 @@ int CommonClass::emptyFlap(array<Byte>^ packet, int channel)
 	return 6;
 }
 		 
-int CommonClass::addData(array<Byte>^ packet, array<Byte>^ dataToAdd, int offset)
+int Protocol::addData(array<Byte>^ packet, array<Byte>^ dataToAdd, int offset)
 // Добавляет данные (не TLV) в пакет со смещением. Возвращает индекс первого свободного байта.
 {
 	for(int i = 0; i < dataToAdd->Length; i++)
@@ -514,7 +514,7 @@ int CommonClass::addData(array<Byte>^ packet, array<Byte>^ dataToAdd, int offset
 	return offset + dataToAdd->Length;
 }
 
-int CommonClass::makeSnac(array<Byte>^ packet, int family, int type, int flags, int requestID)
+int Protocol::makeSnac(array<Byte>^ packet, int family, int type, int flags, int requestID)
 // Создаёт пустой FLAP-пакет с указанным SNAC-заголовком.
 // Возвращает размер пакета
 {
@@ -550,7 +550,7 @@ int CommonClass::makeSnac(array<Byte>^ packet, int family, int type, int flags, 
 	return pSize;
 }
 
-int CommonClass::addTlv(array<Byte>^ packet, int typeOfTlv, array<Byte>^ dataToAdd, int offset)
+int Protocol::addTlv(array<Byte>^ packet, int typeOfTlv, array<Byte>^ dataToAdd, int offset)
 // Данная функция добавляет в имеющийся FLAP-пакет TLV (Type-Length-Value) содержимое для его
 // последующей отправки на сервер. Возвращает индекс первого свободного байта пакета (или его длину).
 // offset - индекс байта, в который нужно начинать писать!
@@ -570,7 +570,7 @@ int CommonClass::addTlv(array<Byte>^ packet, int typeOfTlv, array<Byte>^ dataToA
 
 // === Функции создания КОНКРЕТНЫХ видов пакетов ===
 
-int CommonClass::createCLI_IDENT(array<Byte>^ packet)
+int Protocol::createCLI_IDENT(array<Byte>^ packet)
 // Формирует пакет CLI_IDENT (нужен для передачи логин-серверу уина и пароля).
 // Возвращает размер пакета.
 {
@@ -622,7 +622,7 @@ int CommonClass::createCLI_IDENT(array<Byte>^ packet)
 	return pSize;
 }
 
-int CommonClass::createCLI_COOKIE(array<Byte>^ packet)
+int Protocol::createCLI_COOKIE(array<Byte>^ packet)
 // Формирует пакет CLI_COOKIE (нужен для передачи серверу от логин-сервера).
 // Возвращает размер пакета.
 {
@@ -636,7 +636,7 @@ int CommonClass::createCLI_COOKIE(array<Byte>^ packet)
 	return pSize;
 }
 
-int CommonClass::createCLI_SETxSTATUS(array<Byte>^ packet)
+int Protocol::createCLI_SETxSTATUS(array<Byte>^ packet)
 // Формирует пакет CLI_SETxSTATUS: статус, протокол и прочая инфа.
 // Возвращает размер пакета.
 {
@@ -647,7 +647,7 @@ int CommonClass::createCLI_SETxSTATUS(array<Byte>^ packet)
 	return pSize;
 }
 
-int CommonClass::createCLI_SEND_ICBM_CH1(array<Byte>^ packet, String^ toWho, array<Byte>^ messageToSend, bool sendOffline)
+int Protocol::createCLI_SEND_ICBM_CH1(array<Byte>^ packet, String^ toWho, array<Byte>^ messageToSend, bool sendOffline)
 {
 	int pSize = makeSnac(packet,0x04,0x06,0,0);
 	array<Byte>^ data = gcnew array<Byte>{0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,

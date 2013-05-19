@@ -12,10 +12,10 @@ using namespace System::Net::Sockets;
 using namespace System::IO;
 using namespace System::Threading;
 
-public ref class CommonClass
+public ref class Protocol
 {
 	// Конструктор
-	public: CommonClass();
+	public: Protocol();
 
 	// === Протокольная часть ===
 

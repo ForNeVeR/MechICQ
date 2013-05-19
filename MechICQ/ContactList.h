@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include "Protocol_low_lvl.h"
+#include "Protocol.h"
 #include "GlobalOptions.h"
 #include "IniFile.h"
 

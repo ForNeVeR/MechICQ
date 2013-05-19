@@ -1,20 +1,18 @@
 ﻿#pragma once
 
-#include "Protocol_low_lvl.h"
+#include "Protocol.h"
 
-//#pragma hdrstop
-
-	using namespace System;
-	using namespace System::ComponentModel;
-	using namespace System::Collections;
-	using namespace System::Windows::Forms;
-	using namespace System::Data;
-	using namespace System::Drawing;
-	using namespace System::Net::Sockets;
-	using namespace System::Net;
-	using namespace System::IO;
-	using namespace System::Text;
-	using namespace System::Threading;
+using namespace System;
+using namespace System::ComponentModel;
+using namespace System::Collections;
+using namespace System::Windows::Forms;
+using namespace System::Data;
+using namespace System::Drawing;
+using namespace System::Net::Sockets;
+using namespace System::Net;
+using namespace System::IO;
+using namespace System::Text;
+using namespace System::Threading;
 
 namespace MechICQ {
 
@@ -177,7 +175,7 @@ namespace MechICQ {
 		}
 #pragma endregion
 
-public: CommonClass^ common;
+public: Protocol^ common;
 
 /*private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e)
 {
