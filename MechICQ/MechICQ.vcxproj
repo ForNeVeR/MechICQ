@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>Mechanicum</ProjectName>
+    <ProjectName>MechICQ</ProjectName>
     <ProjectGuid>{D5F3F2B3-DD6C-4875-BA7D-CE8438B565E3}</ProjectGuid>
     <RootNamespace>ICQ_client</RootNamespace>
     <Keyword>ManagedCProj</Keyword>

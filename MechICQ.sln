@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Mechanicum", "ICQ_client\ICQ_client.vcxproj", "{D5F3F2B3-DD6C-4875-BA7D-CE8438B565E3}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MechICQ", "MechICQ\MechICQ.vcxproj", "{D5F3F2B3-DD6C-4875-BA7D-CE8438B565E3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
