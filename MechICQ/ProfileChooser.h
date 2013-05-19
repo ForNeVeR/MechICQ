@@ -14,7 +14,7 @@ using namespace System::IO;
 using namespace System::Xml;
 using namespace System::Text;
 
-namespace ICQ_client {
+namespace MechICQ {
 
 	/// <summary>
 	/// Summary for ProfileChooser

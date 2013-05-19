@@ -1,5 +1,4 @@
-﻿#include "StdAfx.h"
-#include "ProfileChooser.h"
+﻿#include "ProfileChooser.h"
 
 #include "Forms.h"
 

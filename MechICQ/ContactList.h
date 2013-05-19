@@ -12,7 +12,7 @@ using namespace System::Data;
 using namespace System::Drawing;
 
 
-namespace ICQ_client {
+namespace MechICQ {
 
 	/// <summary>
 	/// Summary for ContactList

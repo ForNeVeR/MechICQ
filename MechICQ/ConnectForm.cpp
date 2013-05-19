@@ -1,12 +1,11 @@
-﻿#include "stdafx.h"
-#include "Form1.h"
+﻿#include "ConnectForm.h"
 #include "FORMS.h"
 
 using namespace System;
 
-using namespace ICQ_client;
+using namespace MechICQ;
 
-Void Form1::button1_Click(System::Object^  sender, System::EventArgs^  e)
+Void ConnectForm::button1_Click(System::Object^  sender, System::EventArgs^  e)
 {
 		FORMS::contactList->Show();
 	switch(common->loginStatus)

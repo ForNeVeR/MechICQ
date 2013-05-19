@@ -1,12 +1,10 @@
-﻿#include "StdAfx.h"
-
-//#include "Form1.h"
+﻿//#include "ConnectForm.h"
 #include "ContactList.h"
 //#include "FORMS.h"
 
 using namespace System;
 
-using namespace ICQ_client;
+using namespace MechICQ;
 
 /*Void ContactList::button2_Click(System::Object^  sender, System::EventArgs^  e)
 {

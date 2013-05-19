@@ -8,9 +8,7 @@
    Остальные файлы $APPPATH\<Имя_профиля>\options.ini содержат только UIN в секции Main.
 */
 
-#include "stdafx.h"
-
-#include "Form1.h"
+#include "ConnectForm.h"
 #include "Forms.h"
 #include "GlobalOptions.h"
 #include "IniFile.h"
@@ -18,7 +16,7 @@
 using namespace System::IO;
 using namespace System::Xml;
 
-using namespace ICQ_client;
+using namespace MechICQ;
 
 [STAThreadAttribute]
 int main(array<System::String ^> ^args)
@@ -60,7 +58,7 @@ int main(array<System::String ^> ^args)
 	}
 
 	// Переводим программу в рабочий режим
-	Application::Run(gcnew Form1());
+	Application::Run(gcnew ConnectForm());
 
 	return 0;
 }

@@ -5,7 +5,7 @@
 #include "ProfileChooser.h"
 #include "ContactList.h"
 
-using namespace ICQ_client;
+using namespace MechICQ;
 
 ref struct FORMS
 {

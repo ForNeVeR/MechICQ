@@ -1,6 +1,5 @@
 ﻿#pragma once
 
-#include "stdafx.cpp"
 #include "Protocol_low_lvl.h"
 
 using namespace System;

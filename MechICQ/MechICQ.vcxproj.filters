@@ -27,27 +27,21 @@
     <ClCompile Include="ContactList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ICQ_client.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="stdafx.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ProfileChooser.cpp">
       <Filter>Header Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Form1.cpp">
-      <Filter>Trash</Filter>
     </ClCompile>
     <ClCompile Include="CommonClass.cpp">
       <Filter>Protocol</Filter>
     </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ConnectForm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ContactList.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Form1.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Forms.h">
@@ -65,9 +59,6 @@
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="stdafx.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="MHeader.h">
       <Filter>Trash</Filter>
     </ClInclude>
@@ -76,6 +67,9 @@
     </ClInclude>
     <ClInclude Include="Protocol_low_lvl.h">
       <Filter>Protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="ConnectForm.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -95,10 +89,10 @@
     <EmbeddedResource Include="ContactList.resx">
       <Filter>Resource Files</Filter>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form1.resX">
+    <EmbeddedResource Include="ProfileChooser.resx">
       <Filter>Resource Files</Filter>
     </EmbeddedResource>
-    <EmbeddedResource Include="ProfileChooser.resx">
+    <EmbeddedResource Include="ConnectForm.resX">
       <Filter>Resource Files</Filter>
     </EmbeddedResource>
   </ItemGroup>

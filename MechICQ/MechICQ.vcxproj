@@ -58,7 +58,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <PrecompiledHeader />
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
@@ -75,7 +75,7 @@
     <ClCompile>
       <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
@@ -112,20 +112,16 @@
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="ContactList.cpp" />
-    <ClCompile Include="ICQ_client.cpp" />
-    <ClCompile Include="stdafx.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-    </ClCompile>
+    <ClCompile Include="Main.cpp" />
     <ClCompile Include="ProfileChooser.cpp" />
-    <ClCompile Include="Form1.cpp" />
+    <ClCompile Include="ConnectForm.cpp" />
     <ClCompile Include="CommonClass.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ContactList.h">
       <FileType>CppForm</FileType>
     </ClInclude>
-    <ClInclude Include="Form1.h">
+    <ClInclude Include="ConnectForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="Forms.h" />
@@ -135,7 +131,6 @@
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="resource.h" />
-    <ClInclude Include="stdafx.h" />
     <ClInclude Include="MHeader.h" />
     <ClInclude Include="Protocol_high_lvl.h" />
     <ClInclude Include="Protocol_low_lvl.h" />
@@ -154,8 +149,8 @@
       <DependentUpon>ContactList.h</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form1.resX">
-      <DependentUpon>Form1.h</DependentUpon>
+    <EmbeddedResource Include="ConnectForm.resX">
+      <DependentUpon>ConnectForm.h</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ProfileChooser.resx">

@@ -16,11 +16,11 @@
 	using namespace System::Text;
 	using namespace System::Threading;
 
-namespace ICQ_client {
+namespace MechICQ {
 
 
 	/// <summary>
-	/// Summary for Form1
+	/// Summary for ConnectForm
 	///
 	/// WARNING: If you change the name of this class, you will need to change the
 	///          'Resource File Name' property for the managed resource compiler tool
@@ -28,10 +28,10 @@ namespace ICQ_client {
 	///          the designers will not be able to interact properly with localized
 	///          resources associated with this form.
 	/// </summary>
-	public ref class Form1 : public System::Windows::Forms::Form
+	public ref class ConnectForm : public System::Windows::Forms::Form
 	{
 	public:
-		Form1(void)
+		ConnectForm(void)
 		{
 			InitializeComponent();
 			//
@@ -45,7 +45,7 @@ namespace ICQ_client {
 		/// <summary>
 		/// Clean up any resources being used.
 		/// </summary>
-		~Form1()
+		~ConnectForm()
 		{
 			if (components)
 			{
@@ -99,7 +99,7 @@ namespace ICQ_client {
 			this->button1->TabIndex = 0;
 			this->button1->Text = L"Подключиться";
 			this->button1->UseVisualStyleBackColor = true;
-			this->button1->Click += gcnew System::EventHandler(this, &Form1::button1_Click);
+			this->button1->Click += gcnew System::EventHandler(this, &ConnectForm::button1_Click);
 			// 
 			// label1
 			// 
@@ -153,9 +153,9 @@ namespace ICQ_client {
 			// 
 			// timer1
 			// 
-			this->timer1->Tick += gcnew System::EventHandler(this, &Form1::timer1_Tick);
+			this->timer1->Tick += gcnew System::EventHandler(this, &ConnectForm::timer1_Tick);
 			// 
-			// Form1
+			// ConnectForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
@@ -167,10 +167,10 @@ namespace ICQ_client {
 			this->Controls->Add(this->label2);
 			this->Controls->Add(this->label1);
 			this->Controls->Add(this->button1);
-			this->Name = L"Form1";
+			this->Name = L"ConnectForm";
 			this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
 			this->Text = L"Mechanicum";
-			this->Load += gcnew System::EventHandler(this, &Form1::Form1_Load);
+			this->Load += gcnew System::EventHandler(this, &ConnectForm::Form1_Load);
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
