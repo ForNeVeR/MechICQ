@@ -1,64 +1,111 @@
 ﻿#include "ConnectForm.h"
-#include "FORMS.h"
+
+#include "GlobalOptions.h"
+#include "ProfileChooser.h"
 
 using namespace System;
-
 using namespace MechICQ;
 
-Void ConnectForm::button1_Click(System::Object^  sender, System::EventArgs^  e)
+void ConnectForm::Form_Load(System::Object ^sender, System::EventArgs ^e)
 {
-		FORMS::contactList->Show();
-	switch(common->loginStatus)
+	// Show profile creation dialog:
+	if (GlobalOptions::Uin.Equals(nullptr))
 	{
+		auto profileDialog = gcnew ProfileChooser();
+		auto result = profileDialog->ShowDialog(this);
+		if (result != System::Windows::Forms::DialogResult::OK)
+		{
+			DialogResult = result;
+			Close();
+			return;
+		}
+	}
 
+	progressBar1->Maximum = protocol->TotalLoginStages;
+}
+
+void ConnectForm::Timer_Tick(System::Object ^sender, System::EventArgs ^e)
+{
+	switch(protocol->loginStatus)
+	{
+	case LS_DISCONNECTED:
+		protocol->loginStage = 0;
+		logStatusLabel->Text = "Отключено";
+		protocol->mHandler->Abort();
+		progressBar1->Value = 0;
+		timer1->Enabled = false;
+		break;
+	case LS_LOGIN:
+	case LS_REALSERVER:
+		{
+			progressBar1->Value = protocol->loginStage;
+			int percent =  100 * (float) protocol->loginStage / protocol->TotalLoginStages;
+			logStatusLabel->Text = "Подключение... (" + percent + "%)";
+			break;
+		}
+	case LS_CONNECTED:
+		logStatusLabel->Text = "Подключено";
+		progressBar1->Value = progressBar1->Maximum;
+		button1->Text = "Отключиться";
+		timer1->Enabled = false;
+
+		// TODO: Return OK dialog result and close the form.
+		break;
+	}
+}
+
+void ConnectForm::ConnectButton_Click(System::Object ^sender, System::EventArgs ^e)
+{
+	switch(protocol->loginStatus)
+	{
 	case LS_DISCONNECTED:
 		try
 		{
 			// Инициализируем поток
-			common->mHandler = gcnew Thread(gcnew ThreadStart(&common->mHandling));
+			protocol->mHandler = gcnew Thread(gcnew ThreadStart(&protocol->mHandling));
 			// Открываем логфайл
-			if(common->log)
-				common->log->Close();
-			common->log = gcnew StreamWriter("logfile.txt",false,Encoding::GetEncoding(1251));
-			common->log->AutoFlush = true;
+			if(protocol->log)
+				protocol->log->Close();
+			protocol->log = gcnew StreamWriter("logfile.txt",false,Encoding::GetEncoding(1251));
+			protocol->log->AutoFlush = true;
 			// Подключение к серверу login.icq.com
-			common->UIN = textBox1->Text;
-			common->password = textBox2->Text;
-			common->loginStatus = LS_LOGIN;
-			common->loginClient = gcnew TcpClient(common->loginServerName,common->loginServerPort);
+			protocol->UIN = textBox1->Text;
+			protocol->password = textBox2->Text;
+			protocol->loginStatus = LS_LOGIN;
+			protocol->loginClient = gcnew TcpClient(protocol->loginServerName,protocol->loginServerPort);
 			// Запускаем поток на прослушку поступающих пакетов
-			common->server = common->loginClient->GetStream();
-			common->mHandler->Start();
+			protocol->server = protocol->loginClient->GetStream();
+			protocol->mHandler->Start();
 			timer1->Enabled = true;
 			button1->Text = "Прервать";
 		}
 		catch(Exception^ e)
 		{
-			common->log->WriteLine("----------\nОшибка подключения. Подключение отменено.");
-			common->log->Close();
-			common->mHandler->Abort();
+			protocol->log->WriteLine("----------\nОшибка подключения. Подключение отменено.");
+			protocol->log->Close();
+			protocol->mHandler->Abort();
 			logStatusLabel->Text = "Отключено";
 			timer1->Enabled = false;
 			progressBar1->Value = 0;
 			button1->Text = "Подключиться";
-			common->loginStatus = LS_DISCONNECTED;
-			common->loginStage = 0;
+			protocol->loginStatus = LS_DISCONNECTED;
+			protocol->loginStage = 0;
 			MessageBox::Show("Подключение к серверу не удалось. Сообщение об ошибке: " + e->Message,"Ошибка подключения",MessageBoxButtons::OK, MessageBoxIcon::Exclamation);
 		}
 		break;
 	case LS_LOGIN:
-		common->loginClient->Client->Disconnect(false);
+		protocol->loginClient->Client->Disconnect(false);
 	case LS_REALSERVER:
 	case LS_CONNECTED:
-		common->serverClient->Client->Disconnect(false);
-		common->log->WriteLine("----------\nОтключились от сервера.");
-		common->log->Close();
-		common->mHandler->Abort();
+		protocol->serverClient->Client->Disconnect(false);
+		protocol->log->WriteLine("----------\nОтключились от сервера.");
+		protocol->log->Close();
+		protocol->mHandler->Abort();
 		logStatusLabel->Text = "Отключено";
 		timer1->Enabled = false;
 		progressBar1->Value = 0;
 		button1->Text = "Подключиться";
-		common->loginStatus = LS_DISCONNECTED;
-		common->loginStage = 0;
+		protocol->loginStatus = LS_DISCONNECTED;
+		protocol->loginStage = 0;
 	}
 };

@@ -14,30 +14,22 @@ using namespace System::IO;
 using namespace System::Text;
 using namespace System::Threading;
 
-namespace MechICQ {
-
-
+namespace MechICQ
+{
 	/// <summary>
-	/// Summary for ConnectForm
-	///
-	/// WARNING: If you change the name of this class, you will need to change the
-	///          'Resource File Name' property for the managed resource compiler tool
-	///          associated with all .resx files this class depends on.  Otherwise,
-	///          the designers will not be able to interact properly with localized
-	///          resources associated with this form.
+	/// Server connection form.
 	/// </summary>
 	public ref class ConnectForm : public System::Windows::Forms::Form
 	{
+	private:
+		Protocol ^protocol;
+
 	public:
 		ConnectForm(void)
 		{
 			InitializeComponent();
-			//
-			//TODO: Add the constructor code here
-			//
+			protocol = gcnew Protocol();
 		}
-
-
 
 	protected:
 		/// <summary>
@@ -50,26 +42,26 @@ namespace MechICQ {
 				delete components;
 			}
 		}
+
+	private:
+		void Form_Load(System::Object ^sender, System::EventArgs ^e);
+		void ConnectButton_Click(System::Object ^sender, System::EventArgs ^e);
+		void Timer_Tick(System::Object^  sender, System::EventArgs^  e);
+
 	private: System::Windows::Forms::Button^  button1;
-	protected: 
 	private: System::Windows::Forms::Label^  label1;
 	private: System::Windows::Forms::Label^  label2;
 	private: System::Windows::Forms::TextBox^  textBox1;
 	private: System::Windows::Forms::TextBox^  textBox2;
-	public: System::Windows::Forms::Label^  logStatusLabel;
-
-
-	public: System::Windows::Forms::ProgressBar^  progressBar1;
+	private: System::Windows::Forms::Label^  logStatusLabel;
+	private: System::Windows::Forms::ProgressBar^  progressBar1;
 	private: System::Windows::Forms::Timer^  timer1;
-	public: 
-
-	private: System::ComponentModel::IContainer^  components;
 
 	private:
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
-
+		System::ComponentModel::IContainer^  components;
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -97,7 +89,7 @@ namespace MechICQ {
 			this->button1->TabIndex = 0;
 			this->button1->Text = L"Подключиться";
 			this->button1->UseVisualStyleBackColor = true;
-			this->button1->Click += gcnew System::EventHandler(this, &ConnectForm::button1_Click);
+			this->button1->Click += gcnew System::EventHandler(this, &ConnectForm::ConnectButton_Click);
 			// 
 			// label1
 			// 
@@ -151,7 +143,7 @@ namespace MechICQ {
 			// 
 			// timer1
 			// 
-			this->timer1->Tick += gcnew System::EventHandler(this, &ConnectForm::timer1_Tick);
+			this->timer1->Tick += gcnew System::EventHandler(this, &ConnectForm::Timer_Tick);
 			// 
 			// ConnectForm
 			// 
@@ -168,106 +160,11 @@ namespace MechICQ {
 			this->Name = L"ConnectForm";
 			this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
 			this->Text = L"Mechanicum";
-			this->Load += gcnew System::EventHandler(this, &ConnectForm::Form1_Load);
+			this->Load += gcnew System::EventHandler(this, &ConnectForm::Form_Load);
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
 		}
 #pragma endregion
-
-public: Protocol^ common;
-
-/*private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e)
-{
-	switch(common->loginStatus)
-	{
-	case LS_DISCONNECTED:
-		try
-		{
-			// Инициализируем поток
-			common->mHandler = gcnew Thread(gcnew ThreadStart(&common->mHandling));
-			// Открываем логфайл
-			if(common->log)
-				common->log->Close();
-			common->log = gcnew StreamWriter("logfile.txt",false,Encoding::GetEncoding(1251));
-			common->log->AutoFlush = true;
-			// Подключение к серверу login.icq.com
-			common->UIN = textBox1->Text;
-			common->password = textBox2->Text;
-			common->loginStatus = LS_LOGIN;
-			common->loginClient = gcnew TcpClient(common->loginServerName,common->loginServerPort);
-			// Запускаем поток на прослушку поступающих пакетов
-			common->server = common->loginClient->GetStream();
-			common->mHandler->Start();
-			timer1->Enabled = true;
-			button1->Text = "Прервать";
-		}
-		catch(Exception^ e)
-		{
-			common->log->WriteLine("----------\nОшибка подключения. Подключение отменено.");
-			common->log->Close();
-			common->mHandler->Abort();
-			logStatusLabel->Text = "Отключено";
-			timer1->Enabled = false;
-			progressBar1->Value = 0;
-			button1->Text = "Подключиться";
-			common->loginStatus = LS_DISCONNECTED;
-			common->loginStage = 0;
-			MessageBox::Show("Подключение к серверу не удалось. Сообщение об ошибке: " + e->Message,"Ошибка подключения",MessageBoxButtons::OK, MessageBoxIcon::Exclamation);
-		}
-		break;
-	case LS_LOGIN:
-		common->loginClient->Client->Disconnect(false);
-	case LS_REALSERVER:
-	case LS_CONNECTED:
-		common->serverClient->Client->Disconnect(false);
-		common->log->WriteLine("----------\nОтключились от сервера.");
-		common->log->Close();
-		common->mHandler->Abort();
-		logStatusLabel->Text = "Отключено";
-		timer1->Enabled = false;
-		progressBar1->Value = 0;
-		button1->Text = "Подключиться";
-		common->loginStatus = LS_DISCONNECTED;
-		common->loginStage = 0;
-	}
-}*/
-private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e);
-
-private: System::Void Form1_Load(System::Object^  sender, System::EventArgs^  e)
-{
-	// Инициализация компонентов
-	progressBar1->Maximum = common->TotalLoginStages;
-}
-
-// Функции контроля обновления окошка
-
-private: System::Void timer1_Tick(System::Object^  sender, System::EventArgs^  e)
-{
-	switch(common->loginStatus)
-	{
-	case LS_DISCONNECTED:
-		common->loginStage = 0;
-		logStatusLabel->Text = "Отключено";
-		common->mHandler->Abort();
-		progressBar1->Value = 0;
-		timer1->Enabled = false;
-		break;
-	case LS_LOGIN:
-	case LS_REALSERVER:
-		{
-			progressBar1->Value = common->loginStage;
-			int percent =  100 * (float) common->loginStage / common->TotalLoginStages;
-			logStatusLabel->Text = "Подключение... (" + percent + "%)";
-			break;
-		}
-	case LS_CONNECTED:
-		logStatusLabel->Text = "Подключено";
-		progressBar1->Value = progressBar1->Maximum;
-		button1->Text = "Отключиться";
-		timer1->Enabled = false;
-		break;
-	}
-}
-};
+	};
 }

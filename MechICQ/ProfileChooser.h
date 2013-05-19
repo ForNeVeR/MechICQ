@@ -13,8 +13,8 @@ using namespace System::IO;
 using namespace System::Xml;
 using namespace System::Text;
 
-namespace MechICQ {
-
+namespace MechICQ
+{
 	/// <summary>
 	/// Summary for ProfileChooser
 	///

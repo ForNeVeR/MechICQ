@@ -1,4 +1,4 @@
-﻿#include "ConnectForm.h"
+﻿#include "ContactList.h"
 #include "GlobalOptions.h"
 #include "IniFile.h"
 
@@ -35,7 +35,7 @@ int main(array<System::String ^> ^args)
 		}
 	}
 
-	Application::Run(gcnew ConnectForm());
+	Application::Run(gcnew ContactList());
 
 	return 0;
 }

@@ -12,16 +12,10 @@ using namespace System::Data;
 using namespace System::Drawing;
 
 
-namespace MechICQ {
-
+namespace MechICQ
+{
 	/// <summary>
-	/// Summary for ContactList
-	///
-	/// WARNING: If you change the name of this class, you will need to change the
-	///          'Resource File Name' property for the managed resource compiler tool
-	///          associated with all .resx files this class depends on.  Otherwise,
-	///          the designers will not be able to interact properly with localized
-	///          resources associated with this form.
+	/// Contact list form.
 	/// </summary>
 	public ref class ContactList : public System::Windows::Forms::Form
 	{
@@ -29,9 +23,6 @@ namespace MechICQ {
 		ContactList(void)
 		{
 			InitializeComponent();
-			//
-			//TODO: Add the constructor code here
-			//
 		}
 
 	protected:
@@ -45,19 +36,12 @@ namespace MechICQ {
 				delete components;
 			}
 		}
+
+	private:
+		void ContactList_Load(System::Object ^sender, System::EventArgs ^e);
+
 	private: System::Windows::Forms::ListBox^  listBox1;
-	protected: 
 	private: System::Windows::Forms::ComboBox^  comboBox1;
-
-	protected: 
-
-
-
-
-
-
-
-
 	private:
 		/// <summary>
 		/// Required designer variable.
@@ -108,28 +92,5 @@ namespace MechICQ {
 
 		}
 #pragma endregion
-
-/*public: static ContactList^ form; // Ссылка на форму внутри неё самой. Всё гениальное просто ;)
-public: static CommonClass^ common;*/
-
-/*private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e)
-{
-	// Отправка сообщения. Кодируем строку а остальное сделает функция создания пакета
-	array<Byte>^ msg = gcnew array<Byte>(textBox2->Text->Length);
-	for(int i = 0; i < textBox2->Text->Length; i++)
-		msg[i] = textBox2->Text[i];
-	//msg[msg->Length - 1] = 0;
-	array<Byte>^ packet = gcnew array<Byte>(common->PacketSize);
-	int pSize = common->createCLI_SEND_ICBM_CH1(packet,UINBox->Text,msg,true);
-	common->sendFlap(packet,pSize);
-}*/
-/*private: System::Void button2_Click(System::Object^  sender, System::EventArgs^  e);
-	private: System::Void ContactList_Load(System::Object^  sender, System::EventArgs^  e) {
-			 }*/
-private: System::Void ContactList_Load(System::Object^  sender, System::EventArgs^  e)
-{
-	// Считываем последний статус и, если это не оффлайн, подключаемся и устанавливаем его.
-	IniFile^ pOptions = gcnew IniFile(GlobalOptions::ProfilePath + "\\options.ini"); 
-}
-};
+	};
 }

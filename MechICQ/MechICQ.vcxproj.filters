@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
     </Filter>
-    <Filter Include="Protocol">
-      <UniqueIdentifier>{04aee730-cc79-4f00-92c6-89370d15da99}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp">
@@ -30,18 +27,15 @@
     <ClCompile Include="ConnectForm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Protocol.cpp">
-      <Filter>Protocol</Filter>
-    </ClCompile>
     <ClCompile Include="ProfileChooser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Protocol.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ContactList.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Forms.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GlobalOptions.h">

@@ -124,7 +124,6 @@
     <ClInclude Include="ConnectForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
-    <ClInclude Include="Forms.h" />
     <ClInclude Include="GlobalOptions.h" />
     <ClInclude Include="IniFile.h" />
     <ClInclude Include="ProfileChooser.h">
