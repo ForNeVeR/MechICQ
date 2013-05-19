@@ -1,4 +1,4 @@
-// TODO: Íîðìàëüíàÿ ðàáîòà ñ options.ini
+ï»¿// TODO: ÐÐ¾Ñ€Ð¼Ð°Ð»ÑŒÐ½Ð°Ñ Ñ€Ð°Ð±Ð¾Ñ‚Ð° Ñ options.ini
 #pragma once
 
 #include "IniFile.h"
@@ -105,7 +105,7 @@ namespace ICQ_client {
 			this->createProfileButton->Name = L"createProfileButton";
 			this->createProfileButton->Size = System::Drawing::Size(143, 23);
 			this->createProfileButton->TabIndex = 1;
-			this->createProfileButton->Text = L"Ñîçäàòü";
+			this->createProfileButton->Text = L"Ð¡Ð¾Ð·Ð´Ð°Ñ‚ÑŒ";
 			this->createProfileButton->UseVisualStyleBackColor = true;
 			this->createProfileButton->Click += gcnew System::EventHandler(this, &ProfileChooser::createProfileButton_Click);
 			// 
@@ -115,7 +115,7 @@ namespace ICQ_client {
 			this->okButton->Name = L"okButton";
 			this->okButton->Size = System::Drawing::Size(322, 23);
 			this->okButton->TabIndex = 2;
-			this->okButton->Text = L"ÎÊ";
+			this->okButton->Text = L"ÐžÐš";
 			this->okButton->UseVisualStyleBackColor = true;
 			this->okButton->Click += gcnew System::EventHandler(this, &ProfileChooser::okButton_Click);
 			// 
@@ -126,7 +126,7 @@ namespace ICQ_client {
 			this->label1->Name = L"label1";
 			this->label1->Size = System::Drawing::Size(107, 13);
 			this->label1->TabIndex = 3;
-			this->label1->Text = L"Âûáåðèòå ïðîôèëü:";
+			this->label1->Text = L"Ð’Ñ‹Ð±ÐµÑ€Ð¸Ñ‚Ðµ Ð¿Ñ€Ð¾Ñ„Ð¸Ð»ÑŒ:";
 			// 
 			// label2
 			// 
@@ -135,7 +135,7 @@ namespace ICQ_client {
 			this->label2->Name = L"label2";
 			this->label2->Size = System::Drawing::Size(115, 13);
 			this->label2->TabIndex = 4;
-			this->label2->Text = L"Èëè ñîçäàéòå íîâûé:";
+			this->label2->Text = L"Ð˜Ð»Ð¸ ÑÐ¾Ð·Ð´Ð°Ð¹Ñ‚Ðµ Ð½Ð¾Ð²Ñ‹Ð¹:";
 			// 
 			// profileNameBox
 			// 
@@ -151,7 +151,7 @@ namespace ICQ_client {
 			this->label3->Name = L"label3";
 			this->label3->Size = System::Drawing::Size(32, 13);
 			this->label3->TabIndex = 6;
-			this->label3->Text = L"Èìÿ:";
+			this->label3->Text = L"Ð˜Ð¼Ñ:";
 			// 
 			// label4
 			// 
@@ -176,7 +176,7 @@ namespace ICQ_client {
 			this->setDefaultProfileCheckBox->Name = L"setDefaultProfileCheckBox";
 			this->setDefaultProfileCheckBox->Size = System::Drawing::Size(281, 17);
 			this->setDefaultProfileCheckBox->TabIndex = 11;
-			this->setDefaultProfileCheckBox->Text = L"Èñïîëüçîâàòü âûáðàííûé ïðîôèëü ïî óìîë÷àíèþ";
+			this->setDefaultProfileCheckBox->Text = L"Ð˜ÑÐ¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÑŒ Ð²Ñ‹Ð±Ñ€Ð°Ð½Ð½Ñ‹Ð¹ Ð¿Ñ€Ð¾Ñ„Ð¸Ð»ÑŒ Ð¿Ð¾ ÑƒÐ¼Ð¾Ð»Ñ‡Ð°Ð½Ð¸ÑŽ";
 			this->setDefaultProfileCheckBox->UseVisualStyleBackColor = true;
 			// 
 			// deleteProfileButton
@@ -185,7 +185,7 @@ namespace ICQ_client {
 			this->deleteProfileButton->Name = L"deleteProfileButton";
 			this->deleteProfileButton->Size = System::Drawing::Size(167, 23);
 			this->deleteProfileButton->TabIndex = 12;
-			this->deleteProfileButton->Text = L"Óäàëèòü";
+			this->deleteProfileButton->Text = L"Ð£Ð´Ð°Ð»Ð¸Ñ‚ÑŒ";
 			this->deleteProfileButton->UseVisualStyleBackColor = true;
 			this->deleteProfileButton->Click += gcnew System::EventHandler(this, &ProfileChooser::deleteProfileButton_Click);
 			// 
@@ -208,7 +208,7 @@ namespace ICQ_client {
 			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedToolWindow;
 			this->Name = L"ProfileChooser";
 			this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
-			this->Text = L"Âûáåðèòå ïðîôèëü";
+			this->Text = L"Ð’Ñ‹Ð±ÐµÑ€Ð¸Ñ‚Ðµ Ð¿Ñ€Ð¾Ñ„Ð¸Ð»ÑŒ";
 			this->Load += gcnew System::EventHandler(this, &ProfileChooser::ProfileChooser_Load);
 			this->FormClosing += gcnew System::Windows::Forms::FormClosingEventHandler(this, &ProfileChooser::ProfileChooser_FormClosing);
 			this->ResumeLayout(false);
@@ -226,23 +226,23 @@ private: System::Void createProfileButton_Click(System::Object^  sender, System:
 	try
 	{
 		String^ profileName = profileNameBox->Text;
-		// Çàíîñèì UIN â ôàéë íàñòðîåê ïðîôèëÿ
+		// Ð—Ð°Ð½Ð¾ÑÐ¸Ð¼ UIN Ð² Ñ„Ð°Ð¹Ð» Ð½Ð°ÑÑ‚Ñ€Ð¾ÐµÐº Ð¿Ñ€Ð¾Ñ„Ð¸Ð»Ñ
 		IniFile^ pOptions = gcnew IniFile(GlobalOptions::programPath + "\\" + profileName + "\\options.ini"); 
 		pOptions->setParameter("Main","UIN",UINBox->Text);
 		pOptions->Close();
 		pOptions = nullptr;
-		// Çàíîñèì ïðîôèëü â ñïèñîê íà ýêðàíå
+		// Ð—Ð°Ð½Ð¾ÑÐ¸Ð¼ Ð¿Ñ€Ð¾Ñ„Ð¸Ð»ÑŒ Ð² ÑÐ¿Ð¸ÑÐ¾Ðº Ð½Ð° ÑÐºÑ€Ð°Ð½Ðµ
 		profileBox->Items->Add(profileNameBox->Text + " / " + UINBox->Text);
 	}
 	catch(Exception^ e)
 	{
-		MessageBox::Show("Íåâîçìîæíî ñîçäàòü ïðîôèëü, îøèáêà: " + e->Message,"Îøèáêà ñîçäàíèÿ ïðîôèëÿ",MessageBoxButtons::OK, MessageBoxIcon::Error);
+		MessageBox::Show("ÐÐµÐ²Ð¾Ð·Ð¼Ð¾Ð¶Ð½Ð¾ ÑÐ¾Ð·Ð´Ð°Ñ‚ÑŒ Ð¿Ñ€Ð¾Ñ„Ð¸Ð»ÑŒ, Ð¾ÑˆÐ¸Ð±ÐºÐ°: " + e->Message,"ÐžÑˆÐ¸Ð±ÐºÐ° ÑÐ¾Ð·Ð´Ð°Ð½Ð¸Ñ Ð¿Ñ€Ð¾Ñ„Ð¸Ð»Ñ",MessageBoxButtons::OK, MessageBoxIcon::Error);
 	}
 };
 
 private: System::Void ProfileChooser_Load(System::Object^  sender, System::EventArgs^  e)
 {
-	// C÷èòûâàåì íàçâàíèÿ ïðîôèëåé èç ôàéëà íàñòðîåê
+	// CÑ‡Ð¸Ñ‚Ñ‹Ð²Ð°ÐµÐ¼ Ð½Ð°Ð·Ð²Ð°Ð½Ð¸Ñ Ð¿Ñ€Ð¾Ñ„Ð¸Ð»ÐµÐ¹ Ð¸Ð· Ñ„Ð°Ð¹Ð»Ð° Ð½Ð°ÑÑ‚Ñ€Ð¾ÐµÐº
 	options = gcnew IniFile(GlobalOptions::programPath + "\\options.ini");
 	int profileCount = 0;
 	String^ buff = options->getParameter("Profiles","ProfilesCount");
@@ -250,7 +250,7 @@ private: System::Void ProfileChooser_Load(System::Object^  sender, System::Event
 		profileCount = Convert::ToInt16(buff);
 	for(int i = 1; i <= profileCount; i ++)
 	{
-		// Ñ÷èòûâàåì íàçâàíèÿ ïðîôèëåé è UIN'û
+		// Ð¡Ñ‡Ð¸Ñ‚Ñ‹Ð²Ð°ÐµÐ¼ Ð½Ð°Ð·Ð²Ð°Ð½Ð¸Ñ Ð¿Ñ€Ð¾Ñ„Ð¸Ð»ÐµÐ¹ Ð¸ UIN'Ñ‹
 		String^ profileName = options->getParameter("Profiles","" + i);
 		IniFile^ pOptions = gcnew IniFile(GlobalOptions::programPath + "\\" + profileName + "\\options.ini");
 		if(pOptions->getParameter("Main","UIN") != "")
@@ -261,20 +261,20 @@ private: System::Void ProfileChooser_Load(System::Object^  sender, System::Event
 		pOptions = nullptr;
 		i ++;
 	}
-	// Âûáèðàåì ïåðâûé ýëåìåíò ñïèñêà
+	// Ð’Ñ‹Ð±Ð¸Ñ€Ð°ÐµÐ¼ Ð¿ÐµÑ€Ð²Ñ‹Ð¹ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚ ÑÐ¿Ð¸ÑÐºÐ°
 	if(profileBox->Items->Count != 0)
 		profileBox->SelectedIndex = 0;
 }
 
 private: System::Void deleteProfileButton_Click(System::Object^  sender, System::EventArgs^  e)
 {
-	// Ôóíêöèÿ óäàëåíèÿ ïðîôèëÿ. Óäàëÿåò åãî èç ñïèñêà íà ýêðàíå.
+	// Ð¤ÑƒÐ½ÐºÑ†Ð¸Ñ ÑƒÐ´Ð°Ð»ÐµÐ½Ð¸Ñ Ð¿Ñ€Ð¾Ñ„Ð¸Ð»Ñ. Ð£Ð´Ð°Ð»ÑÐµÑ‚ ÐµÐ³Ð¾ Ð¸Ð· ÑÐ¿Ð¸ÑÐºÐ° Ð½Ð° ÑÐºÑ€Ð°Ð½Ðµ.
 	profileBox->Items->RemoveAt(profileBox->SelectedIndex);
 }
 
 private: System::Void okButton_Click(System::Object^  sender, System::EventArgs^  e)
 {
-	// Ïåðåñîçäà¸ì ñåêöèþ Profiles ôàéëà íàñòðîåê
+	// ÐŸÐµÑ€ÐµÑÐ¾Ð·Ð´Ð°Ñ‘Ð¼ ÑÐµÐºÑ†Ð¸ÑŽ Profiles Ñ„Ð°Ð¹Ð»Ð° Ð½Ð°ÑÑ‚Ñ€Ð¾ÐµÐº
 	options->cleanSection("Profiles");
 	if(setDefaultProfileCheckBox->Checked)
 	{

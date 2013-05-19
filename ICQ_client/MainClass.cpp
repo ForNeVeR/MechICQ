@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+﻿#include "StdAfx.h"
 #include "MainClass.h"
 
 MainClass::MainClass(void)

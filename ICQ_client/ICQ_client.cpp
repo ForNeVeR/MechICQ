@@ -1,11 +1,11 @@
-/* Пара общих замечаний: если какая-то функция в форме не затрагивает ничего, кроме неё самой,
-   можно располагать определение этой функции в .h файле формы. Если функция затрагивает другие
-   формы, обязательно её необходимо вынести в .cpp файл, в котором должно быть прописано
+п»ї/* РџР°СЂР° РѕР±С‰РёС… Р·Р°РјРµС‡Р°РЅРёР№: РµСЃР»Рё РєР°РєР°СЏ-С‚Рѕ С„СѓРЅРєС†РёСЏ РІ С„РѕСЂРјРµ РЅРµ Р·Р°С‚СЂР°РіРёРІР°РµС‚ РЅРёС‡РµРіРѕ, РєСЂРѕРјРµ РЅРµС‘ СЃР°РјРѕР№,
+   РјРѕР¶РЅРѕ СЂР°СЃРїРѕР»Р°РіР°С‚СЊ РѕРїСЂРµРґРµР»РµРЅРёРµ СЌС‚РѕР№ С„СѓРЅРєС†РёРё РІ .h С„Р°Р№Р»Рµ С„РѕСЂРјС‹. Р•СЃР»Рё С„СѓРЅРєС†РёСЏ Р·Р°С‚СЂР°РіРёРІР°РµС‚ РґСЂСѓРіРёРµ
+   С„РѕСЂРјС‹, РѕР±СЏР·Р°С‚РµР»СЊРЅРѕ РµС‘ РЅРµРѕР±С…РѕРґРёРјРѕ РІС‹РЅРµСЃС‚Рё РІ .cpp С„Р°Р№Р», РІ РєРѕС‚РѕСЂРѕРј РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ РїСЂРѕРїРёСЃР°РЅРѕ
    #include "Forms.h"
-   -Пара слов по поводу .ini-файлов-
-   В главном файле настроек $APPPATH\options.ini содержится секция Profiles с параметрами
-   DefaultProfile (профиль, используемый по умолчанию) и 1, 2, ... с именами профилей.
-   Остальные файлы $APPPATH\<Имя_профиля>\options.ini содержат только UIN в секции Main.
+   -РџР°СЂР° СЃР»РѕРІ РїРѕ РїРѕРІРѕРґСѓ .ini-С„Р°Р№Р»РѕРІ-
+   Р’ РіР»Р°РІРЅРѕРј С„Р°Р№Р»Рµ РЅР°СЃС‚СЂРѕРµРє $APPPATH\options.ini СЃРѕРґРµСЂР¶РёС‚СЃСЏ СЃРµРєС†РёСЏ Profiles СЃ РїР°СЂР°РјРµС‚СЂР°РјРё
+   DefaultProfile (РїСЂРѕС„РёР»СЊ, РёСЃРїРѕР»СЊР·СѓРµРјС‹Р№ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ) Рё 1, 2, ... СЃ РёРјРµРЅР°РјРё РїСЂРѕС„РёР»РµР№.
+   РћСЃС‚Р°Р»СЊРЅС‹Рµ С„Р°Р№Р»С‹ $APPPATH\<РРјСЏ_РїСЂРѕС„РёР»СЏ>\options.ini СЃРѕРґРµСЂР¶Р°С‚ С‚РѕР»СЊРєРѕ UIN РІ СЃРµРєС†РёРё Main.
 */
 
 #include "stdafx.h"
@@ -28,38 +28,38 @@ int main(array<System::String ^> ^args)
 	Application::SetCompatibleTextRenderingDefault(false); 
 	
 	GlobalOptions::programPath = Path::GetDirectoryName(Application::ExecutablePath);
-	// Находим профиль по умолчанию в файле настроек
+	// РќР°С…РѕРґРёРј РїСЂРѕС„РёР»СЊ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ РІ С„Р°Р№Р»Рµ РЅР°СЃС‚СЂРѕРµРє
 	IniFile^ options = gcnew IniFile(GlobalOptions::programPath + "\\options.ini");
 	if(options->getParameter("Profiles","DefaultProfile") != "")
 	{
 		GlobalOptions::profilePath = GlobalOptions::programPath + "\\" + options->getParameter("Profiles","DefaultProfile");
-		MessageBox::Show("Стартуем с профилем " + options->getParameter("Profiles","DefaultProfile"));
+		MessageBox::Show("РЎС‚Р°СЂС‚СѓРµРј СЃ РїСЂРѕС„РёР»РµРј " + options->getParameter("Profiles","DefaultProfile"));
 		options = nullptr;
-		// Открываем файл настроек профиля и, если там есть UIN, используем его
+		// РћС‚РєСЂС‹РІР°РµРј С„Р°Р№Р» РЅР°СЃС‚СЂРѕРµРє РїСЂРѕС„РёР»СЏ Рё, РµСЃР»Рё С‚Р°Рј РµСЃС‚СЊ UIN, РёСЃРїРѕР»СЊР·СѓРµРј РµРіРѕ
 		IniFile^ pOptions = gcnew IniFile(GlobalOptions::profilePath + "\\options.ini");
 		if(pOptions->getParameter("Main","UIN") != "")
 		{
 			GlobalOptions::UIN = Convert::ToUInt64(pOptions->getParameter("Main","UIN"));
 			MessageBox::Show(pOptions->getParameter("Main","UIN") + " = " + GlobalOptions::UIN);
-			// Показываем контакт-лист
+			// РџРѕРєР°Р·С‹РІР°РµРј РєРѕРЅС‚Р°РєС‚-Р»РёСЃС‚
 			FORMS::contactList = gcnew ContactList();
 			FORMS::contactList->Show();
 		}
 		else
 		{
-			// Показываем окно выбора и создания профиля
+			// РџРѕРєР°Р·С‹РІР°РµРј РѕРєРЅРѕ РІС‹Р±РѕСЂР° Рё СЃРѕР·РґР°РЅРёСЏ РїСЂРѕС„РёР»СЏ
 			FORMS::profileChooser = gcnew ProfileChooser();
 			FORMS::profileChooser->Show();
 		}
 	}
 	else
 	{
-		// Показываем окно выбора и создания профиля
+		// РџРѕРєР°Р·С‹РІР°РµРј РѕРєРЅРѕ РІС‹Р±РѕСЂР° Рё СЃРѕР·РґР°РЅРёСЏ РїСЂРѕС„РёР»СЏ
 		FORMS::profileChooser = gcnew ProfileChooser();
 		FORMS::profileChooser->Show();
 	}
 
-	// Переводим программу в рабочий режим
+	// РџРµСЂРµРІРѕРґРёРј РїСЂРѕРіСЂР°РјРјСѓ РІ СЂР°Р±РѕС‡РёР№ СЂРµР¶РёРј
 	Application::Run(gcnew Form1());
 
 	return 0;

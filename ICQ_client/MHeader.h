@@ -1,6 +1,6 @@
-#pragma once
-// Заголовочный файл с define'ами
-// Для loginStatus
+п»ї#pragma once
+// Р—Р°РіРѕР»РѕРІРѕС‡РЅС‹Р№ С„Р°Р№Р» СЃ define'Р°РјРё
+// Р”Р»СЏ loginStatus
 #define LS_DISCONNECTED 0
 #define LS_LOGIN 1
 #define LS_REALSERVER 2

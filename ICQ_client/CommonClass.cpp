@@ -1,4 +1,4 @@
-#pragma once
+п»ї#pragma once
 
 #include "stdafx.cpp"
 #include "Protocol_low_lvl.h"
@@ -11,10 +11,10 @@ CommonClass::CommonClass()
 {
 }
 
-// === Служеюные функции ===
+// === РЎР»СѓР¶РµСЋРЅС‹Рµ С„СѓРЅРєС†РёРё ===
 
 String^ CommonClass::hexNumber(Byte byte)
-// Функция выдаёт шестнадцатеричное число в виде строки типа "0A" в отличие от System::Convert::ToString(byte,16) (возвратит "a")
+// Р¤СѓРЅРєС†РёСЏ РІС‹РґР°С‘С‚ С€РµСЃС‚РЅР°РґС†Р°С‚РµСЂРёС‡РЅРѕРµ С‡РёСЃР»Рѕ РІ РІРёРґРµ СЃС‚СЂРѕРєРё С‚РёРїР° "0A" РІ РѕС‚Р»РёС‡РёРµ РѕС‚ System::Convert::ToString(byte,16) (РІРѕР·РІСЂР°С‚РёС‚ "a")
 {
 	String^ buff = System::Convert::ToString(byte,16);
 	buff = buff->ToUpper();
@@ -23,23 +23,23 @@ String^ CommonClass::hexNumber(Byte byte)
 	return buff;
 }
 
-// === Функции обработки поступающих пакетов ===
+// === Р¤СѓРЅРєС†РёРё РѕР±СЂР°Р±РѕС‚РєРё РїРѕСЃС‚СѓРїР°СЋС‰РёС… РїР°РєРµС‚РѕРІ ===
 
 bool CommonClass::flapHeaderOk(array<Byte>^ header)
-// Функция, проверяет FLAP-заголовок пакета. Результат - в порядке ли заголовок. Просматривает
-// только первые 2 байта пакета.
+// Р¤СѓРЅРєС†РёСЏ, РїСЂРѕРІРµСЂСЏРµС‚ FLAP-Р·Р°РіРѕР»РѕРІРѕРє РїР°РєРµС‚Р°. Р РµР·СѓР»СЊС‚Р°С‚ - РІ РїРѕСЂСЏРґРєРµ Р»Рё Р·Р°РіРѕР»РѕРІРѕРє. РџСЂРѕСЃРјР°С‚СЂРёРІР°РµС‚
+// С‚РѕР»СЊРєРѕ РїРµСЂРІС‹Рµ 2 Р±Р°Р№С‚Р° РїР°РєРµС‚Р°.
 {
 	if(header[0] == 0x2A && header[1] >= 1 && header[1] <= 5)
 	{
 		if(connectedToServer)
 		{
-			// Если мы уже подключены к серверу (т.е. изучаемый пакет - не SRV_HELLO), то необходимо контролировать sequence number'ы и сигналить в лог, если что.
+			// Р•СЃР»Рё РјС‹ СѓР¶Рµ РїРѕРґРєР»СЋС‡РµРЅС‹ Рє СЃРµСЂРІРµСЂСѓ (С‚.Рµ. РёР·СѓС‡Р°РµРјС‹Р№ РїР°РєРµС‚ - РЅРµ SRV_HELLO), С‚Рѕ РЅРµРѕР±С…РѕРґРёРјРѕ РєРѕРЅС‚СЂРѕР»РёСЂРѕРІР°С‚СЊ sequence number'С‹ Рё СЃРёРіРЅР°Р»РёС‚СЊ РІ Р»РѕРі, РµСЃР»Рё С‡С‚Рѕ.
 			int wserverSeqNum = serverSeqNum + 1;
 			if(wserverSeqNum >= SEQNUM_RESET_VALUE)
-				wserverSeqNum = 0; // После этой операции wserverSeqNum - ожидаемый serverSeqNum
+				wserverSeqNum = 0; // РџРѕСЃР»Рµ СЌС‚РѕР№ РѕРїРµСЂР°С†РёРё wserverSeqNum - РѕР¶РёРґР°РµРјС‹Р№ serverSeqNum
 			serverSeqNum = header[2] * 256 + header[3];
 			if(serverSeqNum != wserverSeqNum)
-				log->WriteLine("[!] Полученный sequence number (" + hexNumber(header[2]) +" " + hexNumber(header[3]) + ") не соответствует ожидаемому (" + hexNumber(wserverSeqNum / 256) + " " + hexNumber(wserverSeqNum - (int)(wserverSeqNum / 256) * 256) + "). Вероятна потеря пакетов.");
+				log->WriteLine("[!] РџРѕР»СѓС‡РµРЅРЅС‹Р№ sequence number (" + hexNumber(header[2]) +" " + hexNumber(header[3]) + ") РЅРµ СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓРµС‚ РѕР¶РёРґР°РµРјРѕРјСѓ (" + hexNumber(wserverSeqNum / 256) + " " + hexNumber(wserverSeqNum - (int)(wserverSeqNum / 256) * 256) + "). Р’РµСЂРѕСЏС‚РЅР° РїРѕС‚РµСЂСЏ РїР°РєРµС‚РѕРІ.");
 		}
 		return true;
 		}
@@ -48,9 +48,9 @@ bool CommonClass::flapHeaderOk(array<Byte>^ header)
 }
 
 int CommonClass::getTlv(array<Byte>^ packet, int pSize, int typeOfTlv, int offset)
-// Функция выдаёт индекс первого байта запрошенного TLV-пакета или 0, если пакет не найден.
-// Для работы нужен размер пакета (ведь переменная-то > 64 кб! Не проверять же её всю!)
-// Также задаётся смещение (на случай, если в пакете в начале есть SNAC-заголовки или ещё чего-нибудь.
+// Р¤СѓРЅРєС†РёСЏ РІС‹РґР°С‘С‚ РёРЅРґРµРєСЃ РїРµСЂРІРѕРіРѕ Р±Р°Р№С‚Р° Р·Р°РїСЂРѕС€РµРЅРЅРѕРіРѕ TLV-РїР°РєРµС‚Р° РёР»Рё 0, РµСЃР»Рё РїР°РєРµС‚ РЅРµ РЅР°Р№РґРµРЅ.
+// Р”Р»СЏ СЂР°Р±РѕС‚С‹ РЅСѓР¶РµРЅ СЂР°Р·РјРµСЂ РїР°РєРµС‚Р° (РІРµРґСЊ РїРµСЂРµРјРµРЅРЅР°СЏ-С‚Рѕ > 64 РєР±! РќРµ РїСЂРѕРІРµСЂСЏС‚СЊ Р¶Рµ РµС‘ РІСЃСЋ!)
+// РўР°РєР¶Рµ Р·Р°РґР°С‘С‚СЃСЏ СЃРјРµС‰РµРЅРёРµ (РЅР° СЃР»СѓС‡Р°Р№, РµСЃР»Рё РІ РїР°РєРµС‚Рµ РІ РЅР°С‡Р°Р»Рµ РµСЃС‚СЊ SNAC-Р·Р°РіРѕР»РѕРІРєРё РёР»Рё РµС‰С‘ С‡РµРіРѕ-РЅРёР±СѓРґСЊ.
 {
 	int type;
 	int size;
@@ -69,17 +69,17 @@ int CommonClass::getTlv(array<Byte>^ packet, int pSize, int typeOfTlv, int offse
 }
 
 System::Void CommonClass::determine (array<Byte>^ packet)
-// Данная функция определяет тип поступившего пакета и дальнейшие действия.
+// Р”Р°РЅРЅР°СЏ С„СѓРЅРєС†РёСЏ РѕРїСЂРµРґРµР»СЏРµС‚ С‚РёРї РїРѕСЃС‚СѓРїРёРІС€РµРіРѕ РїР°РєРµС‚Р° Рё РґР°Р»СЊРЅРµР№С€РёРµ РґРµР№СЃС‚РІРёСЏ.
 {
-	// Пакет мы проверили сразу по получении, так что тут никаких проблем с ним возникнуть не должно.
-	log->WriteLine("Обработка пакета...");
-	// Определим канал, по которому пришёл пакет...
+	// РџР°РєРµС‚ РјС‹ РїСЂРѕРІРµСЂРёР»Рё СЃСЂР°Р·Сѓ РїРѕ РїРѕР»СѓС‡РµРЅРёРё, С‚Р°Рє С‡С‚Рѕ С‚СѓС‚ РЅРёРєР°РєРёС… РїСЂРѕР±Р»РµРј СЃ РЅРёРј РІРѕР·РЅРёРєРЅСѓС‚СЊ РЅРµ РґРѕР»Р¶РЅРѕ.
+	log->WriteLine("РћР±СЂР°Р±РѕС‚РєР° РїР°РєРµС‚Р°...");
+	// РћРїСЂРµРґРµР»РёРј РєР°РЅР°Р», РїРѕ РєРѕС‚РѕСЂРѕРјСѓ РїСЂРёС€С‘Р» РїР°РєРµС‚...
 	int channel = packet[1];
-	log->WriteLine("Пакет пришёл по каналу " + channel + ".");
+	log->WriteLine("РџР°РєРµС‚ РїСЂРёС€С‘Р» РїРѕ РєР°РЅР°Р»Сѓ " + channel + ".");
 	serverSeqNum = packet[2] * 256 + packet[3];
 	log->WriteLine("Sequence number: " + hexNumber(packet[2]) + " " + hexNumber(packet[3]));
 	int pSize = packet[4] * 256 + packet[5] + 6;
-	log->WriteLine("Длина пакета: " + (pSize - 6) + " (+ 6 байт заголовок).");
+	log->WriteLine("Р”Р»РёРЅР° РїР°РєРµС‚Р°: " + (pSize - 6) + " (+ 6 Р±Р°Р№С‚ Р·Р°РіРѕР»РѕРІРѕРє).");
 	switch(channel)
 	{
 	case 1: // New connection negitiation
@@ -87,55 +87,55 @@ System::Void CommonClass::determine (array<Byte>^ packet)
 		if(packet[4] == 0 && packet[5] == 4 && packet[6] == 0 && packet[7] == 0 && packet[8] == 0 && packet[9] == 1)
 		{
 			connectedToServer = true;
-			log->WriteLine("Получен пакет SRV_HELLO: подключение к серверу установлено.");
+			log->WriteLine("РџРѕР»СѓС‡РµРЅ РїР°РєРµС‚ SRV_HELLO: РїРѕРґРєР»СЋС‡РµРЅРёРµ Рє СЃРµСЂРІРµСЂСѓ СѓСЃС‚Р°РЅРѕРІР»РµРЅРѕ.");
 			loginStage ++;
-			// Теперь, если мы подключены к логин-серверу, нужно отослать ему CLI_IDENT вместе с логином, паролем и прочей фигнёй.
+			// РўРµРїРµСЂСЊ, РµСЃР»Рё РјС‹ РїРѕРґРєР»СЋС‡РµРЅС‹ Рє Р»РѕРіРёРЅ-СЃРµСЂРІРµСЂСѓ, РЅСѓР¶РЅРѕ РѕС‚РѕСЃР»Р°С‚СЊ РµРјСѓ CLI_IDENT РІРјРµСЃС‚Рµ СЃ Р»РѕРіРёРЅРѕРј, РїР°СЂРѕР»РµРј Рё РїСЂРѕС‡РµР№ С„РёРіРЅС‘Р№.
 			if(loginStatus == LS_LOGIN)
 			{
-				// В принципе, packet мы уже обработали и он нам не нужен, так что можно использовать его.
-				// Поскольку мы только что подключились к серверу, о чём свидетельствует SRV_HELLO, нужно сформировать новый seqNum
+				// Р’ РїСЂРёРЅС†РёРїРµ, packet РјС‹ СѓР¶Рµ РѕР±СЂР°Р±РѕС‚Р°Р»Рё Рё РѕРЅ РЅР°Рј РЅРµ РЅСѓР¶РµРЅ, С‚Р°Рє С‡С‚Рѕ РјРѕР¶РЅРѕ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ РµРіРѕ.
+				// РџРѕСЃРєРѕР»СЊРєСѓ РјС‹ С‚РѕР»СЊРєРѕ С‡С‚Рѕ РїРѕРґРєР»СЋС‡РёР»РёСЃСЊ Рє СЃРµСЂРІРµСЂСѓ, Рѕ С‡С‘Рј СЃРІРёРґРµС‚РµР»СЊСЃС‚РІСѓРµС‚ SRV_HELLO, РЅСѓР¶РЅРѕ СЃС„РѕСЂРјРёСЂРѕРІР°С‚СЊ РЅРѕРІС‹Р№ seqNum
 				System::Random^ rand = gcnew System::Random;
-				seqNum = rand->Next(SEQNUM_RESET_VALUE); // Не знаю, может ли в этом случае seqNum стать == 0x8000, однако это всё равно будет отловлено при создании пакета
-				pSize = createCLI_IDENT(packet); // packet заполняется нужными данными и готов к отправке
+				seqNum = rand->Next(SEQNUM_RESET_VALUE); // РќРµ Р·РЅР°СЋ, РјРѕР¶РµС‚ Р»Рё РІ СЌС‚РѕРј СЃР»СѓС‡Р°Рµ seqNum СЃС‚Р°С‚СЊ == 0x8000, РѕРґРЅР°РєРѕ СЌС‚Рѕ РІСЃС‘ СЂР°РІРЅРѕ Р±СѓРґРµС‚ РѕС‚Р»РѕРІР»РµРЅРѕ РїСЂРё СЃРѕР·РґР°РЅРёРё РїР°РєРµС‚Р°
+				pSize = createCLI_IDENT(packet); // packet Р·Р°РїРѕР»РЅСЏРµС‚СЃСЏ РЅСѓР¶РЅС‹РјРё РґР°РЅРЅС‹РјРё Рё РіРѕС‚РѕРІ Рє РѕС‚РїСЂР°РІРєРµ
 				sendFlap(packet,pSize);
 			}
-			// А если к реальному серверу, ему нужно отослать CLI_COOKIE
+			// Рђ РµСЃР»Рё Рє СЂРµР°Р»СЊРЅРѕРјСѓ СЃРµСЂРІРµСЂСѓ, РµРјСѓ РЅСѓР¶РЅРѕ РѕС‚РѕСЃР»Р°С‚СЊ CLI_COOKIE
 			if(loginStatus == LS_REALSERVER)
 			{
 				System::Random^ rand = gcnew System::Random;
-				seqNum = rand->Next(SEQNUM_RESET_VALUE); // Не знаю, может ли в этом случае seqNum стать == 0x8000, однако это всё равно будет отловлено при создании пакета
-				pSize = createCLI_COOKIE(packet); // packet заполняется нужными данными и готов к отправке
+				seqNum = rand->Next(SEQNUM_RESET_VALUE); // РќРµ Р·РЅР°СЋ, РјРѕР¶РµС‚ Р»Рё РІ СЌС‚РѕРј СЃР»СѓС‡Р°Рµ seqNum СЃС‚Р°С‚СЊ == 0x8000, РѕРґРЅР°РєРѕ СЌС‚Рѕ РІСЃС‘ СЂР°РІРЅРѕ Р±СѓРґРµС‚ РѕС‚Р»РѕРІР»РµРЅРѕ РїСЂРё СЃРѕР·РґР°РЅРёРё РїР°РєРµС‚Р°
+				pSize = createCLI_COOKIE(packet); // packet Р·Р°РїРѕР»РЅСЏРµС‚СЃСЏ РЅСѓР¶РЅС‹РјРё РґР°РЅРЅС‹РјРё Рё РіРѕС‚РѕРІ Рє РѕС‚РїСЂР°РІРєРµ
 				sendFlap(packet,pSize);				
 			}
 			break;
 		}
 	case 2: // SNAC data
 		{
-			// Определим family и type
+			// РћРїСЂРµРґРµР»РёРј family Рё type
 			int family = packet[6] * 256 + packet[7];
 			int type = packet[8] * 256 + packet[9];
 			int flags = packet[10] * 256 + packet[11];
 			int requestID = packet[12] * 0x1000000 + packet[13] * 0x10000 + packet[14] * 0x100 + packet[15];
-			log->WriteLine("Получен SNAC-пакет: family = " + family + ", type = " + type + ", flags = " + hexNumber(packet[10]) + " " + hexNumber(packet[11]) + ", request ID: " + hexNumber(packet[12]) + " " + hexNumber(packet[13]) + " " + hexNumber(packet[14]) + " " + hexNumber(packet[15]));
+			log->WriteLine("РџРѕР»СѓС‡РµРЅ SNAC-РїР°РєРµС‚: family = " + family + ", type = " + type + ", flags = " + hexNumber(packet[10]) + " " + hexNumber(packet[11]) + ", request ID: " + hexNumber(packet[12]) + " " + hexNumber(packet[13]) + " " + hexNumber(packet[14]) + " " + hexNumber(packet[15]));
 			if(family == 1 && type == 3) // SRV_FAMILIES
 			{
 				loginStage ++;
-				// Этот пакет содержит список поддерживаемых сервисов, так что их надо запомнить.
+				// Р­С‚РѕС‚ РїР°РєРµС‚ СЃРѕРґРµСЂР¶РёС‚ СЃРїРёСЃРѕРє РїРѕРґРґРµСЂР¶РёРІР°РµРјС‹С… СЃРµСЂРІРёСЃРѕРІ, С‚Р°Рє С‡С‚Рѕ РёС… РЅР°РґРѕ Р·Р°РїРѕРјРЅРёС‚СЊ.
 				int offset = 16;
 				supportedSnacs = gcnew array<int>((pSize - 16) / 2);
 				for(int i = 0; i < (pSize - 16) / 2; i++)
 				{
 					supportedSnacs[i] = packet[offset + i * 2] * 256 + packet[offset + i * 2 + 1];
 				}
-				log->WriteLine("Получен SNAC(1,3): SRV_FAMILIES, содержит список поддерживаемых сервисов.");
-				log->Write("Список:");
+				log->WriteLine("РџРѕР»СѓС‡РµРЅ SNAC(1,3): SRV_FAMILIES, СЃРѕРґРµСЂР¶РёС‚ СЃРїРёСЃРѕРє РїРѕРґРґРµСЂР¶РёРІР°РµРјС‹С… СЃРµСЂРІРёСЃРѕРІ.");
+				log->Write("РЎРїРёСЃРѕРє:");
 				for(int i = 0; i < supportedSnacs->Length; i++)
 					log->Write(" " + hexNumber((supportedSnacs[i] / 256)) + hexNumber((supportedSnacs[i] - (int)(supportedSnacs[i] / 256) * 256)));
 				log->WriteLine();
-				// Теперь нужно отправить пакет с нужными сервисами и их версиями
-				pSize = makeSnac(packet,1,0x17,0,1); // Создаём пустой SNAC пакет с указанными параметрами
+				// РўРµРїРµСЂСЊ РЅСѓР¶РЅРѕ РѕС‚РїСЂР°РІРёС‚СЊ РїР°РєРµС‚ СЃ РЅСѓР¶РЅС‹РјРё СЃРµСЂРІРёСЃР°РјРё Рё РёС… РІРµСЂСЃРёСЏРјРё
+				pSize = makeSnac(packet,1,0x17,0,1); // РЎРѕР·РґР°С‘Рј РїСѓСЃС‚РѕР№ SNAC РїР°РєРµС‚ СЃ СѓРєР°Р·Р°РЅРЅС‹РјРё РїР°СЂР°РјРµС‚СЂР°РјРё
 				array<Byte>^ data = gcnew array<Byte>(supportedSnacs->Length * 4);
-				// Следующий цикл задаёт необходимую версию для каждого поддерживаемого сервиса равной 1
+				// РЎР»РµРґСѓСЋС‰РёР№ С†РёРєР» Р·Р°РґР°С‘С‚ РЅРµРѕР±С…РѕРґРёРјСѓСЋ РІРµСЂСЃРёСЋ РґР»СЏ РєР°Р¶РґРѕРіРѕ РїРѕРґРґРµСЂР¶РёРІР°РµРјРѕРіРѕ СЃРµСЂРІРёСЃР° СЂР°РІРЅРѕР№ 1
 				for(int i = 0; i < supportedSnacs->Length; i++)
 				{
 					data[4 * i] = supportedSnacs[i] / 256;
@@ -150,9 +150,9 @@ System::Void CommonClass::determine (array<Byte>^ packet)
 			if(family == 1 && type == 7)
 			{
 				loginStage ++;
-				log->WriteLine("Получен пакет SNAC(1,7): SRV_RATE_LIMIT_INFO, заполняем информацию о rate-limits.");
+				log->WriteLine("РџРѕР»СѓС‡РµРЅ РїР°РєРµС‚ SNAC(1,7): SRV_RATE_LIMIT_INFO, Р·Р°РїРѕР»РЅСЏРµРј РёРЅС„РѕСЂРјР°С†РёСЋ Рѕ rate-limits.");
 				classCount = packet[16] * 256 + packet[17];
-				// Считываем основную инфу
+				// РЎС‡РёС‚С‹РІР°РµРј РѕСЃРЅРѕРІРЅСѓСЋ РёРЅС„Сѓ
 				rID = gcnew array<int>(classCount);
 				windowSize = gcnew array<int>(classCount);
 				clear = gcnew array<int>(classCount);
@@ -181,9 +181,9 @@ System::Void CommonClass::determine (array<Byte>^ packet)
 					offset += 4;
 					max[i] = packet[offset] * 0x1000000 + packet[offset + 1] * 0x10000 + packet[offset + 2] * 0x100 + packet[offset + 3];
 				}
-				// Теперь считываем группы SNAC-пакетов, относящиеся к тому или иному лимиту.
-				// Пары family-type SNAC-пакетов заносятся в массив как family * 0x10000 + type
-				snacPairs = gcnew array<int,2>(classCount,(pSize - (6 + 2 + 30 * classCount + 4)) / 4); // Это на всякий случай, исходим из худшего, т.е. что вся оставшаяся часть пакета представляет из себя одну группу.
+				// РўРµРїРµСЂСЊ СЃС‡РёС‚С‹РІР°РµРј РіСЂСѓРїРїС‹ SNAC-РїР°РєРµС‚РѕРІ, РѕС‚РЅРѕСЃСЏС‰РёРµСЃСЏ Рє С‚РѕРјСѓ РёР»Рё РёРЅРѕРјСѓ Р»РёРјРёС‚Сѓ.
+				// РџР°СЂС‹ family-type SNAC-РїР°РєРµС‚РѕРІ Р·Р°РЅРѕСЃСЏС‚СЃСЏ РІ РјР°СЃСЃРёРІ РєР°Рє family * 0x10000 + type
+				snacPairs = gcnew array<int,2>(classCount,(pSize - (6 + 2 + 30 * classCount + 4)) / 4); // Р­С‚Рѕ РЅР° РІСЃСЏРєРёР№ СЃР»СѓС‡Р°Р№, РёСЃС…РѕРґРёРј РёР· С…СѓРґС€РµРіРѕ, С‚.Рµ. С‡С‚Рѕ РІСЃСЏ РѕСЃС‚Р°РІС€Р°СЏСЃСЏ С‡Р°СЃС‚СЊ РїР°РєРµС‚Р° РїСЂРµРґСЃС‚Р°РІР»СЏРµС‚ РёР· СЃРµР±СЏ РѕРґРЅСѓ РіСЂСѓРїРїСѓ.
 				int offset = 6 + 10 + 2 + 30 * classCount;
 				int i = 0;
 				while(i < pSize)
@@ -205,7 +205,7 @@ System::Void CommonClass::determine (array<Byte>^ packet)
 					}
 					i += (4 + count * 4);
 				}
-				log->WriteLine("Вся информация о rate-limits будет сохранена в файл ratelim.txt");
+				log->WriteLine("Р’СЃСЏ РёРЅС„РѕСЂРјР°С†РёСЏ Рѕ rate-limits Р±СѓРґРµС‚ СЃРѕС…СЂР°РЅРµРЅР° РІ С„Р°Р№Р» ratelim.txt");
 				StreamWriter^ ratelim = gcnew StreamWriter("ratelim.txt",false,Encoding::GetEncoding(1251));
 				ratelim->WriteLine("=== RATE-LIMITS ===");
 				ratelim->WriteLine("(csv format)");
@@ -223,7 +223,7 @@ System::Void CommonClass::determine (array<Byte>^ packet)
 				}
 				ratelim->Close();
 				ratelim = nullptr;
-				// Теперь нужно отослать на сервер пакет CLI_RATES_ACK (SNAC(01,08)), содержащий просто список групп rate-limits.
+				// РўРµРїРµСЂСЊ РЅСѓР¶РЅРѕ РѕС‚РѕСЃР»Р°С‚СЊ РЅР° СЃРµСЂРІРµСЂ РїР°РєРµС‚ CLI_RATES_ACK (SNAC(01,08)), СЃРѕРґРµСЂР¶Р°С‰РёР№ РїСЂРѕСЃС‚Рѕ СЃРїРёСЃРѕРє РіСЂСѓРїРї rate-limits.
 				pSize = makeSnac(packet,1,8,0,0);
 				for(int i = 0; i < classCount; i++)
 				{
@@ -234,8 +234,8 @@ System::Void CommonClass::determine (array<Byte>^ packet)
 				}
 				loginStage ++;
 				sendFlap(packet,pSize);
-				// После того, как этот пакет отправлен, нужно отправить также ещё один небольшой пакетик для начала следующей стадии логина.
-				log->WriteLine("Начата стадия логина 3: настройка сервисов.");
+				// РџРѕСЃР»Рµ С‚РѕРіРѕ, РєР°Рє СЌС‚РѕС‚ РїР°РєРµС‚ РѕС‚РїСЂР°РІР»РµРЅ, РЅСѓР¶РЅРѕ РѕС‚РїСЂР°РІРёС‚СЊ С‚Р°РєР¶Рµ РµС‰С‘ РѕРґРёРЅ РЅРµР±РѕР»СЊС€РѕР№ РїР°РєРµС‚РёРє РґР»СЏ РЅР°С‡Р°Р»Р° СЃР»РµРґСѓСЋС‰РµР№ СЃС‚Р°РґРёРё Р»РѕРіРёРЅР°.
+				log->WriteLine("РќР°С‡Р°С‚Р° СЃС‚Р°РґРёСЏ Р»РѕРіРёРЅР° 3: РЅР°СЃС‚СЂРѕР№РєР° СЃРµСЂРІРёСЃРѕРІ.");
 				pSize = makeSnac(packet,2,2,0,0); // CLI_LOCATION_RIGHTS_REQ
 				loginStage ++;
 				sendFlap(packet,pSize);
@@ -243,36 +243,36 @@ System::Void CommonClass::determine (array<Byte>^ packet)
 			}
 			if(family == 1 && type == 0x13) // SRV_MOTD
 			{
-				log->WriteLine("Получен пакет SRV_MOTD: пакет проигнорирован.");
+				log->WriteLine("РџРѕР»СѓС‡РµРЅ РїР°РєРµС‚ SRV_MOTD: РїР°РєРµС‚ РїСЂРѕРёРіРЅРѕСЂРёСЂРѕРІР°РЅ.");
 				break;
 			}
 			if(family == 1 && type == 0x18) // SRV_FAMILIES_VERSIONS
 			{
 				loginStage ++;
-				log->WriteLine("Получен пакет SRV_FAMILIES_VERSIONS, но нам на него пофиг.");
-				// На этой стадии логина можно отправлять CLI_RATES_REQUEST, чем мы и займёмся
+				log->WriteLine("РџРѕР»СѓС‡РµРЅ РїР°РєРµС‚ SRV_FAMILIES_VERSIONS, РЅРѕ РЅР°Рј РЅР° РЅРµРіРѕ РїРѕС„РёРі.");
+				// РќР° СЌС‚РѕР№ СЃС‚Р°РґРёРё Р»РѕРіРёРЅР° РјРѕР¶РЅРѕ РѕС‚РїСЂР°РІР»СЏС‚СЊ CLI_RATES_REQUEST, С‡РµРј РјС‹ Рё Р·Р°Р№РјС‘РјСЃСЏ
 				pSize = makeSnac(packet,1,6,0,0);
 				sendFlap(packet,pSize);
-				// Обожаю этот пакет!
+				// РћР±РѕР¶Р°СЋ СЌС‚РѕС‚ РїР°РєРµС‚!
 				break;
 			}
 			if(family == 2 && type == 3)
 			{
 				loginStage ++;
-				log->WriteLine("Получен пакет SNAC(02,03): SRV_LOCATION_RIGHTS_REPLY. Извлечём maxProfileLen и maxCapabilities.");
-				// Не знаю правда, зачем нам эти данные...
+				log->WriteLine("РџРѕР»СѓС‡РµРЅ РїР°РєРµС‚ SNAC(02,03): SRV_LOCATION_RIGHTS_REPLY. РР·РІР»РµС‡С‘Рј maxProfileLen Рё maxCapabilities.");
+				// РќРµ Р·РЅР°СЋ РїСЂР°РІРґР°, Р·Р°С‡РµРј РЅР°Рј СЌС‚Рё РґР°РЅРЅС‹Рµ...
 				int offset = getTlv(packet,pSize,01,16) + 4;
 				maxProfileLen = packet[offset] * 256 + packet[offset + 1];
 				offset = getTlv(packet,pSize,0x02,16);
 				maxCapabilities = packet[offset] * 256 + packet[offset + 1];
 				log->WriteLine("maxProfileLen = " + maxProfileLen + ", maxCapabilities = " + maxCapabilities + ".");
-				// И продолжаем нескончаемый процесс логина
-				// Нам нужно отправить capabilities клиента при помощи пакета SNAC(02,04): CLI_SET_LOCATION_INFO
+				// Р РїСЂРѕРґРѕР»Р¶Р°РµРј РЅРµСЃРєРѕРЅС‡Р°РµРјС‹Р№ РїСЂРѕС†РµСЃСЃ Р»РѕРіРёРЅР°
+				// РќР°Рј РЅСѓР¶РЅРѕ РѕС‚РїСЂР°РІРёС‚СЊ capabilities РєР»РёРµРЅС‚Р° РїСЂРё РїРѕРјРѕС‰Рё РїР°РєРµС‚Р° SNAC(02,04): CLI_SET_LOCATION_INFO
 				pSize = makeSnac(packet,0x02,0x04,0x00,0x00);
 				pSize = addTlv(packet,0x05,capabilities,pSize);
 				sendFlap(packet,pSize);
-				// Заодно нужно запросить ограничения контакт-листа.
-				// Это делается пакетом SNAC(03,02): CLI_BUDDYLIST_RIGHTS_REQ
+				// Р—Р°РѕРґРЅРѕ РЅСѓР¶РЅРѕ Р·Р°РїСЂРѕСЃРёС‚СЊ РѕРіСЂР°РЅРёС‡РµРЅРёСЏ РєРѕРЅС‚Р°РєС‚-Р»РёСЃС‚Р°.
+				// Р­С‚Рѕ РґРµР»Р°РµС‚СЃСЏ РїР°РєРµС‚РѕРј SNAC(03,02): CLI_BUDDYLIST_RIGHTS_REQ
 				pSize = makeSnac(packet,0x03,0x02,0x00,0x00);
 				sendFlap(packet,pSize);
 				break;
@@ -280,15 +280,15 @@ System::Void CommonClass::determine (array<Byte>^ packet)
 			if(family == 3 && type == 3)
 			{
 				loginStage ++;
-				log->WriteLine("Получен пакет SNAC(03,03): SRV_BUDDYLIST_RIGHTS_REPLY. Извлечём максимальный размер контакт-листа и списка видимых/невидимых.");
-				// Подразумевается, что оба рассматриваемых параметра по 2 байта, хотя в мануале явно длина не указана.
+				log->WriteLine("РџРѕР»СѓС‡РµРЅ РїР°РєРµС‚ SNAC(03,03): SRV_BUDDYLIST_RIGHTS_REPLY. РР·РІР»РµС‡С‘Рј РјР°РєСЃРёРјР°Р»СЊРЅС‹Р№ СЂР°Р·РјРµСЂ РєРѕРЅС‚Р°РєС‚-Р»РёСЃС‚Р° Рё СЃРїРёСЃРєР° РІРёРґРёРјС‹С…/РЅРµРІРёРґРёРјС‹С….");
+				// РџРѕРґСЂР°Р·СѓРјРµРІР°РµС‚СЃСЏ, С‡С‚Рѕ РѕР±Р° СЂР°СЃСЃРјР°С‚СЂРёРІР°РµРјС‹С… РїР°СЂР°РјРµС‚СЂР° РїРѕ 2 Р±Р°Р№С‚Р°, С…РѕС‚СЏ РІ РјР°РЅСѓР°Р»Рµ СЏРІРЅРѕ РґР»РёРЅР° РЅРµ СѓРєР°Р·Р°РЅР°.
 				int offset = getTlv(packet,pSize,01,16) + 4;
 				maxCLSize = packet[offset] * 256 + packet[offset + 1];
 				offset = getTlv(packet,pSize,0x02,16);
 				maxWLSize = packet[offset] * 256 + packet[offset + 1];
 				log->WriteLine("maxCLSize = " + maxCLSize + ", maxWLSize = " + maxWLSize + ".");
-				// И продолжаем нескончаемый процесс логина
-				// Нам нужно запросить ICBM-параметры
+				// Р РїСЂРѕРґРѕР»Р¶Р°РµРј РЅРµСЃРєРѕРЅС‡Р°РµРјС‹Р№ РїСЂРѕС†РµСЃСЃ Р»РѕРіРёРЅР°
+				// РќР°Рј РЅСѓР¶РЅРѕ Р·Р°РїСЂРѕСЃРёС‚СЊ ICBM-РїР°СЂР°РјРµС‚СЂС‹
 				pSize = makeSnac(packet,0x04,0x04,0x00,0x00);
 				sendFlap(packet,pSize);
 				break;
@@ -296,22 +296,22 @@ System::Void CommonClass::determine (array<Byte>^ packet)
 			if(family = 0x04 && type == 0x05) // SNAC(04,05): SRV_ICBM_PARAMS
 			{
 				loginStage ++;
-				log->WriteLine("Получен пакет SNAC(04,05): SRV_ICBM_PARAMS, но в данной версии он игнорируется.");
-				// Тут, по идее, нужно отправить SNAC(04,02) для настройки этих параметров, но нас типа устраивают параметры по умолчанию
+				log->WriteLine("РџРѕР»СѓС‡РµРЅ РїР°РєРµС‚ SNAC(04,05): SRV_ICBM_PARAMS, РЅРѕ РІ РґР°РЅРЅРѕР№ РІРµСЂСЃРёРё РѕРЅ РёРіРЅРѕСЂРёСЂСѓРµС‚СЃСЏ.");
+				// РўСѓС‚, РїРѕ РёРґРµРµ, РЅСѓР¶РЅРѕ РѕС‚РїСЂР°РІРёС‚СЊ SNAC(04,02) РґР»СЏ РЅР°СЃС‚СЂРѕР№РєРё СЌС‚РёС… РїР°СЂР°РјРµС‚СЂРѕРІ, РЅРѕ РЅР°СЃ С‚РёРїР° СѓСЃС‚СЂР°РёРІР°СЋС‚ РїР°СЂР°РјРµС‚СЂС‹ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
 				loginStage ++;
-				// SNAC(09,02)/SNAC(09,03) про PRM (макс. размер визибл-инвизибл-листа (а что тогда такое watcher list?)
+				// SNAC(09,02)/SNAC(09,03) РїСЂРѕ PRM (РјР°РєСЃ. СЂР°Р·РјРµСЂ РІРёР·РёР±Р»-РёРЅРІРёР·РёР±Р»-Р»РёСЃС‚Р° (Р° С‡С‚Рѕ С‚РѕРіРґР° С‚Р°РєРѕРµ watcher list?)
 				loginStage ++;
-				// TODO: SNAC(13,02/03/05/0f) тоже попробуем пропустить, ибо нафик не упало пока что (это каким-то образом влияет на работу с контакт-листом).
+				// TODO: SNAC(13,02/03/05/0f) С‚РѕР¶Рµ РїРѕРїСЂРѕР±СѓРµРј РїСЂРѕРїСѓСЃС‚РёС‚СЊ, РёР±Рѕ РЅР°С„РёРє РЅРµ СѓРїР°Р»Рѕ РїРѕРєР° С‡С‚Рѕ (СЌС‚Рѕ РєР°РєРёРј-С‚Рѕ РѕР±СЂР°Р·РѕРј РІР»РёСЏРµС‚ РЅР° СЂР°Р±РѕС‚Сѓ СЃ РєРѕРЅС‚Р°РєС‚-Р»РёСЃС‚РѕРј).
 				loginStage ++;
-				// Отправим пакет, инициирующий SSI
+				// РћС‚РїСЂР°РІРёРј РїР°РєРµС‚, РёРЅРёС†РёРёСЂСѓСЋС‰РёР№ SSI
 				pSize = makeSnac(packet,0x13,0x07,0,0);
 				loginStage ++;
 				sendFlap(packet,pSize);
-				pSize = createCLI_SETxSTATUS(packet); // Отправляем инфу о статусе
+				pSize = createCLI_SETxSTATUS(packet); // РћС‚РїСЂР°РІР»СЏРµРј РёРЅС„Сѓ Рѕ СЃС‚Р°С‚СѓСЃРµ
 				loginStage ++;
 				sendFlap(packet,pSize);
-				// И отправляем CLI_READY!
-				// Ладно, тупо попробуем взять его из примера
+				// Р РѕС‚РїСЂР°РІР»СЏРµРј CLI_READY!
+				// Р›Р°РґРЅРѕ, С‚СѓРїРѕ РїРѕРїСЂРѕР±СѓРµРј РІР·СЏС‚СЊ РµРіРѕ РёР· РїСЂРёРјРµСЂР°
 				pSize = emptyFlap(packet,0x02);
 				array<Byte>^ data = gcnew array<Byte>
 					{0x00, 0x01, 0x00, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02,
@@ -320,7 +320,7 @@ System::Void CommonClass::determine (array<Byte>^ packet)
 					 0x00, 0x15, 0x00, 0x01, 0x01, 0x10, 0x04, 0x7B, 0x00, 0x04, 0x00, 0x01, 0x01, 0x10, 0x04, 0x7B,
 					 0x00, 0x06, 0x00, 0x01, 0x01, 0x10, 0x04, 0x7B, 0x00, 0x09, 0x00, 0x01, 0x01, 0x10, 0x04, 0x7B,
 					 0x00, 0x0A, 0x00, 0x01, 0x01, 0x10, 0x04, 0x7B, 0x00, 0x0B, 0x00, 0x01, 0x01, 0x10, 0x04, 0x7B};
-				// Странно, но прокатывает о_О
+				// РЎС‚СЂР°РЅРЅРѕ, РЅРѕ РїСЂРѕРєР°С‚С‹РІР°РµС‚ Рѕ_Рћ
 				pSize = addData(packet,data,pSize);
 				loginStage ++;
 				sendFlap(packet,pSize);
@@ -333,13 +333,13 @@ System::Void CommonClass::determine (array<Byte>^ packet)
 		if(getTlv(packet,pSize,1,6) != 0 && getTlv(packet,pSize,5,6) != 0 && getTlv(packet,pSize,6,6) != 0 && loginStatus == LS_LOGIN)
 		{
 			loginStage ++;
-			log->WriteLine("Получен пакет SRV_COOKIE: получен cookie и адрес сервера.");
-			log->WriteLine("Получение IP-адреса и порта сервера...");
-			// Достаём IP-адрес сервера и порт
-			int offset = getTlv(packet,pSize,5,6); // Теперь offset содержит индекс первого байта TLV, содержащего адрес сервера
+			log->WriteLine("РџРѕР»СѓС‡РµРЅ РїР°РєРµС‚ SRV_COOKIE: РїРѕР»СѓС‡РµРЅ cookie Рё Р°РґСЂРµСЃ СЃРµСЂРІРµСЂР°.");
+			log->WriteLine("РџРѕР»СѓС‡РµРЅРёРµ IP-Р°РґСЂРµСЃР° Рё РїРѕСЂС‚Р° СЃРµСЂРІРµСЂР°...");
+			// Р”РѕСЃС‚Р°С‘Рј IP-Р°РґСЂРµСЃ СЃРµСЂРІРµСЂР° Рё РїРѕСЂС‚
+			int offset = getTlv(packet,pSize,5,6); // РўРµРїРµСЂСЊ offset СЃРѕРґРµСЂР¶РёС‚ РёРЅРґРµРєСЃ РїРµСЂРІРѕРіРѕ Р±Р°Р№С‚Р° TLV, СЃРѕРґРµСЂР¶Р°С‰РµРіРѕ Р°РґСЂРµСЃ СЃРµСЂРІРµСЂР°
 			int adrSize = packet[offset + 2] * 256 + packet[offset + 3];
 			array<Byte>^ ip = gcnew array<Byte>(4);
-			int number = 0; // Какую цифру ip сейчас задаём <0 - 3 - ip, 4 - порт.>
+			int number = 0; // РљР°РєСѓСЋ С†РёС„СЂСѓ ip СЃРµР№С‡Р°СЃ Р·Р°РґР°С‘Рј <0 - 3 - ip, 4 - РїРѕСЂС‚.>
 			int port = 0;
 			for(int i = 0; i < adrSize; )
 			{
@@ -360,62 +360,62 @@ System::Void CommonClass::determine (array<Byte>^ packet)
 				}
 				i += 1;
 			}
-			log->Write("Из строки \"");
+			log->Write("РР· СЃС‚СЂРѕРєРё \"");
 			for(int i = 0; i < adrSize; i++)
 			{
 				log->Write(packet[offset + 4 + i]);
 			}
-			log->WriteLine("\" получен адрес: " + ip[0] + "." + ip[1] + "." + ip[2] + "." + ip[3] + ":" + port + ".");
-			// Прежде, чем подключаться к серверу, нужно ещё запомнить cookie.
-			offset = getTlv(packet,pSize,6,6); // Cookie хранится в TLV 6
+			log->WriteLine("\" РїРѕР»СѓС‡РµРЅ Р°РґСЂРµСЃ: " + ip[0] + "." + ip[1] + "." + ip[2] + "." + ip[3] + ":" + port + ".");
+			// РџСЂРµР¶РґРµ, С‡РµРј РїРѕРґРєР»СЋС‡Р°С‚СЊСЃСЏ Рє СЃРµСЂРІРµСЂСѓ, РЅСѓР¶РЅРѕ РµС‰С‘ Р·Р°РїРѕРјРЅРёС‚СЊ cookie.
+			offset = getTlv(packet,pSize,6,6); // Cookie С…СЂР°РЅРёС‚СЃСЏ РІ TLV 6
 			int cookieSize = packet[offset + 2] * 256 + packet[offset + 3];
 			if (cookieSize != 256)
-				log->WriteLine("[!] Размер cookie (" + cookieSize + ") не соответствует ожидаемому (256). Продолжаю выполнение...");
+				log->WriteLine("[!] Р Р°Р·РјРµСЂ cookie (" + cookieSize + ") РЅРµ СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓРµС‚ РѕР¶РёРґР°РµРјРѕРјСѓ (256). РџСЂРѕРґРѕР»Р¶Р°СЋ РІС‹РїРѕР»РЅРµРЅРёРµ...");
 			cookie = gcnew array<Byte>(cookieSize);
 			for(int i = 0; i < cookieSize; i++)
 				cookie[i] = packet[offset+4+i];
-			log->Write("Сохранённая cookie [" + cookie->Length + " байт]:");
+			log->Write("РЎРѕС…СЂР°РЅС‘РЅРЅР°СЏ cookie [" + cookie->Length + " Р±Р°Р№С‚]:");
 			for(int i = 0; i < cookie->Length; i++)
 			{
 				log->Write(" " + hexNumber(cookie[i]));
 			}
 			log->WriteLine();
-			// Подключаемся к новому серверу
+			// РџРѕРґРєР»СЋС‡Р°РµРјСЃСЏ Рє РЅРѕРІРѕРјСѓ СЃРµСЂРІРµСЂСѓ
 			loginStatus = LS_REALSERVER;
 			connectedToServer = false;
 			loginClient->Client->Disconnect(true);
 			serverClient = gcnew TcpClient();
 			serverClient->Connect(gcnew System::Net::IPAddress(ip),port);
 			server = serverClient->GetStream();
-			connectedToServer = true; // Забыл, зачем нужна эта переменная :(
+			connectedToServer = true; // Р—Р°Р±С‹Р», Р·Р°С‡РµРј РЅСѓР¶РЅР° СЌС‚Р° РїРµСЂРµРјРµРЅРЅР°СЏ :(
 			break;
 		}
 		// AUTH_FAILED
-		// Этот пакет, судя по документации, должен также содержать TLV 00 0C с неизвестным содержимым, однако на практике этого не происходит.
+		// Р­С‚РѕС‚ РїР°РєРµС‚, СЃСѓРґСЏ РїРѕ РґРѕРєСѓРјРµРЅС‚Р°С†РёРё, РґРѕР»Р¶РµРЅ С‚Р°РєР¶Рµ СЃРѕРґРµСЂР¶Р°С‚СЊ TLV 00 0C СЃ РЅРµРёР·РІРµСЃС‚РЅС‹Рј СЃРѕРґРµСЂР¶РёРјС‹Рј, РѕРґРЅР°РєРѕ РЅР° РїСЂР°РєС‚РёРєРµ СЌС‚РѕРіРѕ РЅРµ РїСЂРѕРёСЃС…РѕРґРёС‚.
 		if(getTlv(packet,pSize,1,6) != 0 && getTlv(packet,pSize,4,6) != 0 && getTlv(packet,pSize,8,6) != 0)
 		{
 			loginStage ++;
-			log->WriteLine("Получен пакет AUTH_FAILED: авторизация не удалась.");
-			log->WriteLine("Код ошибки: " + hexNumber(packet[getTlv(packet,pSize,8,6) + 4]) + " " + hexNumber(packet[getTlv(packet,pSize,8,6) + 5]));
-			MessageBox::Show("Авторизация не удалась: ошибка " + hexNumber(packet[getTlv(packet,pSize,8,6) + 4]) + " " + hexNumber(packet[getTlv(packet,pSize,8,6) + 5]),"Ошибка авторизации",MessageBoxButtons::OK, MessageBoxIcon::Exclamation);
+			log->WriteLine("РџРѕР»СѓС‡РµРЅ РїР°РєРµС‚ AUTH_FAILED: Р°РІС‚РѕСЂРёР·Р°С†РёСЏ РЅРµ СѓРґР°Р»Р°СЃСЊ.");
+			log->WriteLine("РљРѕРґ РѕС€РёР±РєРё: " + hexNumber(packet[getTlv(packet,pSize,8,6) + 4]) + " " + hexNumber(packet[getTlv(packet,pSize,8,6) + 5]));
+			MessageBox::Show("РђРІС‚РѕСЂРёР·Р°С†РёСЏ РЅРµ СѓРґР°Р»Р°СЃСЊ: РѕС€РёР±РєР° " + hexNumber(packet[getTlv(packet,pSize,8,6) + 4]) + " " + hexNumber(packet[getTlv(packet,pSize,8,6) + 5]),"РћС€РёР±РєР° Р°РІС‚РѕСЂРёР·Р°С†РёРё",MessageBoxButtons::OK, MessageBoxIcon::Exclamation);
 			loginStatus = LS_DISCONNECTED;
 			break;
 		}
 	default:
-		log->WriteLine("[!] Не могу определить тип пакета. Пакет игнорирован.");
+		log->WriteLine("[!] РќРµ РјРѕРіСѓ РѕРїСЂРµРґРµР»РёС‚СЊ С‚РёРї РїР°РєРµС‚Р°. РџР°РєРµС‚ РёРіРЅРѕСЂРёСЂРѕРІР°РЅ.");
 	}
 }
 
 System::Void CommonClass::mHandling()
-// Данная функция работает в потоке и обрабатывает все получаемые с серверов сообщения.
-// Запускается, естественно, пару раз для каждой попытки подключения.
+// Р”Р°РЅРЅР°СЏ С„СѓРЅРєС†РёСЏ СЂР°Р±РѕС‚Р°РµС‚ РІ РїРѕС‚РѕРєРµ Рё РѕР±СЂР°Р±Р°С‚С‹РІР°РµС‚ РІСЃРµ РїРѕР»СѓС‡Р°РµРјС‹Рµ СЃ СЃРµСЂРІРµСЂРѕРІ СЃРѕРѕР±С‰РµРЅРёСЏ.
+// Р—Р°РїСѓСЃРєР°РµС‚СЃСЏ, РµСЃС‚РµСЃС‚РІРµРЅРЅРѕ, РїР°СЂСѓ СЂР°Р· РґР»СЏ РєР°Р¶РґРѕР№ РїРѕРїС‹С‚РєРё РїРѕРґРєР»СЋС‡РµРЅРёСЏ.
 {
-	// Переменные
+	// РџРµСЂРµРјРµРЅРЅС‹Рµ
 	array<Byte>^ packet = gcnew array<Byte>(PacketSize);
-	// Приступаем к работе
-	while(server->Read(packet,0,6)) // Получаем заголовок поступившего пакета
+	// РџСЂРёСЃС‚СѓРїР°РµРј Рє СЂР°Р±РѕС‚Рµ
+	while(server->Read(packet,0,6)) // РџРѕР»СѓС‡Р°РµРј Р·Р°РіРѕР»РѕРІРѕРє РїРѕСЃС‚СѓРїРёРІС€РµРіРѕ РїР°РєРµС‚Р°
 	{
-		log->Write("Получен заголовок FLAP-пакета:");
+		log->Write("РџРѕР»СѓС‡РµРЅ Р·Р°РіРѕР»РѕРІРѕРє FLAP-РїР°РєРµС‚Р°:");
 		for(int i = 0; i < 6; i++)
 		{
 			log->Write(" " + hexNumber(packet[i]));
@@ -425,8 +425,8 @@ System::Void CommonClass::mHandling()
 		{
 			int pSize = packet[4] * 256 + packet[5];
 			server->Read(packet,6,pSize);
-			// Пакет загружен, засунем его в лог и будем разбираться дальше, т.е. передаём его определяющей функции.
-			log->Write("Получено содержимое FLAP-пакета:");
+			// РџР°РєРµС‚ Р·Р°РіСЂСѓР¶РµРЅ, Р·Р°СЃСѓРЅРµРј РµРіРѕ РІ Р»РѕРі Рё Р±СѓРґРµРј СЂР°Р·Р±РёСЂР°С‚СЊСЃСЏ РґР°Р»СЊС€Рµ, С‚.Рµ. РїРµСЂРµРґР°С‘Рј РµРіРѕ РѕРїСЂРµРґРµР»СЏСЋС‰РµР№ С„СѓРЅРєС†РёРё.
+			log->Write("РџРѕР»СѓС‡РµРЅРѕ СЃРѕРґРµСЂР¶РёРјРѕРµ FLAP-РїР°РєРµС‚Р°:");
 			for(int i = 6; i < pSize + 6; i++)
 			{
 				log->Write(" " + hexNumber(packet[i]));
@@ -437,22 +437,22 @@ System::Void CommonClass::mHandling()
 	}
 }
 
-// === Функции создания и отправки пакетов ===
+// === Р¤СѓРЅРєС†РёРё СЃРѕР·РґР°РЅРёСЏ Рё РѕС‚РїСЂР°РІРєРё РїР°РєРµС‚РѕРІ ===
 
 System::Void CommonClass::sendFlap(array<Byte>^ packet, int size)
-// Функция отправляет пакет на текущий подключенный сервер и заливает этот пакет в лог.
+// Р¤СѓРЅРєС†РёСЏ РѕС‚РїСЂР°РІР»СЏРµС‚ РїР°РєРµС‚ РЅР° С‚РµРєСѓС‰РёР№ РїРѕРґРєР»СЋС‡РµРЅРЅС‹Р№ СЃРµСЂРІРµСЂ Рё Р·Р°Р»РёРІР°РµС‚ СЌС‚РѕС‚ РїР°РєРµС‚ РІ Р»РѕРі.
 {
-	// Работа с rate-limits
-	// Сначала определим, SNAC ли пакет перед нами
-	int channel = packet[1]; // SNAC пакеты же идут только по второму каналу!
+	// Р Р°Р±РѕС‚Р° СЃ rate-limits
+	// РЎРЅР°С‡Р°Р»Р° РѕРїСЂРµРґРµР»РёРј, SNAC Р»Рё РїР°РєРµС‚ РїРµСЂРµРґ РЅР°РјРё
+	int channel = packet[1]; // SNAC РїР°РєРµС‚С‹ Р¶Рµ РёРґСѓС‚ С‚РѕР»СЊРєРѕ РїРѕ РІС‚РѕСЂРѕРјСѓ РєР°РЅР°Р»Сѓ!
 	if(channel == 0x02 && classCount != 0)
 	{
-		// Выясним SNAC family и type
+		// Р’С‹СЏСЃРЅРёРј SNAC family Рё type
 		int family = packet[6] * 256 + packet[7];
 		int type = packet[8] * 256 + packet[9];
-		int group = -1; // Искомая группа
-		// Теперь находим, какой группе rate-limits соответствует данный пакет
-		int maxCount = snacPairs->Length / classCount; // Таково максимальное число пар в каждой группе limits
+		int group = -1; // РСЃРєРѕРјР°СЏ РіСЂСѓРїРїР°
+		// РўРµРїРµСЂСЊ РЅР°С…РѕРґРёРј, РєР°РєРѕР№ РіСЂСѓРїРїРµ rate-limits СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓРµС‚ РґР°РЅРЅС‹Р№ РїР°РєРµС‚
+		int maxCount = snacPairs->Length / classCount; // РўР°РєРѕРІРѕ РјР°РєСЃРёРјР°Р»СЊРЅРѕРµ С‡РёСЃР»Рѕ РїР°СЂ РІ РєР°Р¶РґРѕР№ РіСЂСѓРїРїРµ limits
 		for(int i = 0; i < classCount; i ++)
 		{
 			for(int j = 0; j < maxCount; j ++)
@@ -462,7 +462,7 @@ System::Void CommonClass::sendFlap(array<Byte>^ packet, int size)
 				if (family == tFamily && type == tType)
 				{
 					group = i;
-					// Завершаем оба цикла (сработает?)
+					// Р—Р°РІРµСЂС€Р°РµРј РѕР±Р° С†РёРєР»Р° (СЃСЂР°Р±РѕС‚Р°РµС‚?)
 					break;
 					break;
 				}
@@ -474,10 +474,10 @@ System::Void CommonClass::sendFlap(array<Byte>^ packet, int size)
 		else
 			current[group] = (windowSize[group] - 1)/windowSize[group] * current[group] + 1/windowSize[group] * (lastTime[group] - time->Ticks * 10^6);
 		lastTime[group] = time->Ticks * 10 ^ 6;
-		// TODO: Что делать, если текущий уровень превысил alert или limit?
-		//		 (Что делать, если уровень превысил disconnect, выбрать всё равно нельзя :)
+		// TODO: Р§С‚Рѕ РґРµР»Р°С‚СЊ, РµСЃР»Рё С‚РµРєСѓС‰РёР№ СѓСЂРѕРІРµРЅСЊ РїСЂРµРІС‹СЃРёР» alert РёР»Рё limit?
+		//		 (Р§С‚Рѕ РґРµР»Р°С‚СЊ, РµСЃР»Рё СѓСЂРѕРІРµРЅСЊ РїСЂРµРІС‹СЃРёР» disconnect, РІС‹Р±СЂР°С‚СЊ РІСЃС‘ СЂР°РІРЅРѕ РЅРµР»СЊР·СЏ :)
 	}
-	log->Write("Отправка на сервер следующего пакета:");
+	log->Write("РћС‚РїСЂР°РІРєР° РЅР° СЃРµСЂРІРµСЂ СЃР»РµРґСѓСЋС‰РµРіРѕ РїР°РєРµС‚Р°:");
 	for(int i = 0; i < size; i++)
 	{
 	log->Write(" " + hexNumber(packet[i]));
@@ -487,39 +487,39 @@ System::Void CommonClass::sendFlap(array<Byte>^ packet, int size)
 }
 
 int CommonClass::emptyFlap(array<Byte>^ packet, int channel)
-// Инициализирует пустой FLAP-пакет, т.е. добавляет только заголовок в 6 байт, содержащий номер канала и sequence number.
-// Возвращает индекс первого байта, подлжащего записи (т.е. 6), что можно также назвать длиной пакета.
+// РРЅРёС†РёР°Р»РёР·РёСЂСѓРµС‚ РїСѓСЃС‚РѕР№ FLAP-РїР°РєРµС‚, С‚.Рµ. РґРѕР±Р°РІР»СЏРµС‚ С‚РѕР»СЊРєРѕ Р·Р°РіРѕР»РѕРІРѕРє РІ 6 Р±Р°Р№С‚, СЃРѕРґРµСЂР¶Р°С‰РёР№ РЅРѕРјРµСЂ РєР°РЅР°Р»Р° Рё sequence number.
+// Р’РѕР·РІСЂР°С‰Р°РµС‚ РёРЅРґРµРєСЃ РїРµСЂРІРѕРіРѕ Р±Р°Р№С‚Р°, РїРѕРґР»Р¶Р°С‰РµРіРѕ Р·Р°РїРёСЃРё (С‚.Рµ. 6), С‡С‚Рѕ РјРѕР¶РЅРѕ С‚Р°РєР¶Рµ РЅР°Р·РІР°С‚СЊ РґР»РёРЅРѕР№ РїР°РєРµС‚Р°.
 {
 	packet[0] = 0x2A;
 	packet[1] = channel;
 	seqNum += 1;
 	if(seqNum >= SEQNUM_RESET_VALUE)
 		seqNum = 0;
-	// seqNum вычислен, запишем его в байты 2-3
+	// seqNum РІС‹С‡РёСЃР»РµРЅ, Р·Р°РїРёС€РµРј РµРіРѕ РІ Р±Р°Р№С‚С‹ 2-3
 	packet[2] = seqNum / 256;
 	packet[3] = seqNum - (int)(seqNum / 256) * 256;
-	packet[4] = 0x00; // Место под размер данных; сейчас их 0 байт
+	packet[4] = 0x00; // РњРµСЃС‚Рѕ РїРѕРґ СЂР°Р·РјРµСЂ РґР°РЅРЅС‹С…; СЃРµР№С‡Р°СЃ РёС… 0 Р±Р°Р№С‚
 	packet[5] = 0x00;
 	return 6;
 }
 		 
 int CommonClass::addData(array<Byte>^ packet, array<Byte>^ dataToAdd, int offset)
-// Добавляет данные (не TLV) в пакет со смещением. Возвращает индекс первого свободного байта.
+// Р”РѕР±Р°РІР»СЏРµС‚ РґР°РЅРЅС‹Рµ (РЅРµ TLV) РІ РїР°РєРµС‚ СЃРѕ СЃРјРµС‰РµРЅРёРµРј. Р’РѕР·РІСЂР°С‰Р°РµС‚ РёРЅРґРµРєСЃ РїРµСЂРІРѕРіРѕ СЃРІРѕР±РѕРґРЅРѕРіРѕ Р±Р°Р№С‚Р°.
 {
 	for(int i = 0; i < dataToAdd->Length; i++)
 		packet[offset + i] = dataToAdd[i];
 	int fullLen = offset - 6 + dataToAdd->Length;
-	// Запишем длину пакета
+	// Р—Р°РїРёС€РµРј РґР»РёРЅСѓ РїР°РєРµС‚Р°
 	packet[4] = fullLen / 256;
 	packet[5] = fullLen - (int)(fullLen / 256) * 256;
 	return offset + dataToAdd->Length;
 }
 
 int CommonClass::makeSnac(array<Byte>^ packet, int family, int type, int flags, int requestID)
-// Создаёт пустой FLAP-пакет с указанным SNAC-заголовком.
-// Возвращает размер пакета
+// РЎРѕР·РґР°С‘С‚ РїСѓСЃС‚РѕР№ FLAP-РїР°РєРµС‚ СЃ СѓРєР°Р·Р°РЅРЅС‹Рј SNAC-Р·Р°РіРѕР»РѕРІРєРѕРј.
+// Р’РѕР·РІСЂР°С‰Р°РµС‚ СЂР°Р·РјРµСЂ РїР°РєРµС‚Р°
 {
-	// Проверка, поддерживается ли указанный сервис (family) сервером
+	// РџСЂРѕРІРµСЂРєР°, РїРѕРґРґРµСЂР¶РёРІР°РµС‚СЃСЏ Р»Рё СѓРєР°Р·Р°РЅРЅС‹Р№ СЃРµСЂРІРёСЃ (family) СЃРµСЂРІРµСЂРѕРј
 	bool yes = false;
 	for(int i = 0; i < supportedSnacs->Length; i++)
 	{
@@ -530,7 +530,7 @@ int CommonClass::makeSnac(array<Byte>^ packet, int family, int type, int flags, 
 		}
 	}
 	if(!yes)
-		log->WriteLine("Указанный SNAC family (" + family + ") не поддерживается сервером, но всё равно будет отправлен.");
+		log->WriteLine("РЈРєР°Р·Р°РЅРЅС‹Р№ SNAC family (" + family + ") РЅРµ РїРѕРґРґРµСЂР¶РёРІР°РµС‚СЃСЏ СЃРµСЂРІРµСЂРѕРј, РЅРѕ РІСЃС‘ СЂР°РІРЅРѕ Р±СѓРґРµС‚ РѕС‚РїСЂР°РІР»РµРЅ.");
 	int pSize = emptyFlap(packet,2);
 	array<Byte>^ header = gcnew array<Byte>(10);
 	// family
@@ -552,9 +552,9 @@ int CommonClass::makeSnac(array<Byte>^ packet, int family, int type, int flags, 
 }
 
 int CommonClass::addTlv(array<Byte>^ packet, int typeOfTlv, array<Byte>^ dataToAdd, int offset)
-// Данная функция добавляет в имеющийся FLAP-пакет TLV (Type-Length-Value) содержимое для его
-// последующей отправки на сервер. Возвращает индекс первого свободного байта пакета (или его длину).
-// offset - индекс байта, в который нужно начинать писать!
+// Р”Р°РЅРЅР°СЏ С„СѓРЅРєС†РёСЏ РґРѕР±Р°РІР»СЏРµС‚ РІ РёРјРµСЋС‰РёР№СЃСЏ FLAP-РїР°РєРµС‚ TLV (Type-Length-Value) СЃРѕРґРµСЂР¶РёРјРѕРµ РґР»СЏ РµРіРѕ
+// РїРѕСЃР»РµРґСѓСЋС‰РµР№ РѕС‚РїСЂР°РІРєРё РЅР° СЃРµСЂРІРµСЂ. Р’РѕР·РІСЂР°С‰Р°РµС‚ РёРЅРґРµРєСЃ РїРµСЂРІРѕРіРѕ СЃРІРѕР±РѕРґРЅРѕРіРѕ Р±Р°Р№С‚Р° РїР°РєРµС‚Р° (РёР»Рё РµРіРѕ РґР»РёРЅСѓ).
+// offset - РёРЅРґРµРєСЃ Р±Р°Р№С‚Р°, РІ РєРѕС‚РѕСЂС‹Р№ РЅСѓР¶РЅРѕ РЅР°С‡РёРЅР°С‚СЊ РїРёСЃР°С‚СЊ!
 {
 	packet[offset] = typeOfTlv / 256;
 	packet[offset + 1] = typeOfTlv - (int)(typeOfTlv / 256) * 256;
@@ -563,20 +563,20 @@ int CommonClass::addTlv(array<Byte>^ packet, int typeOfTlv, array<Byte>^ dataToA
 	for(int i = 0; i < dataToAdd->Length; i++)
 		packet[offset + 4 + i] = dataToAdd[i];
 	int fullLen = offset - 6 + 4 + dataToAdd->Length;
-	// Запишем длину пакета
+	// Р—Р°РїРёС€РµРј РґР»РёРЅСѓ РїР°РєРµС‚Р°
 	packet[4] = fullLen / 256;
 	packet[5] = fullLen - (int)(fullLen / 256) * 256;
 	return offset + 4 + dataToAdd->Length;
 }
 
-// === Функции создания КОНКРЕТНЫХ видов пакетов ===
+// === Р¤СѓРЅРєС†РёРё СЃРѕР·РґР°РЅРёСЏ РљРћРќРљР Р•РўРќР«РҐ РІРёРґРѕРІ РїР°РєРµС‚РѕРІ ===
 
 int CommonClass::createCLI_IDENT(array<Byte>^ packet)
-// Формирует пакет CLI_IDENT (нужен для передачи логин-серверу уина и пароля).
-// Возвращает размер пакета.
+// Р¤РѕСЂРјРёСЂСѓРµС‚ РїР°РєРµС‚ CLI_IDENT (РЅСѓР¶РµРЅ РґР»СЏ РїРµСЂРµРґР°С‡Рё Р»РѕРіРёРЅ-СЃРµСЂРІРµСЂСѓ СѓРёРЅР° Рё РїР°СЂРѕР»СЏ).
+// Р’РѕР·РІСЂР°С‰Р°РµС‚ СЂР°Р·РјРµСЂ РїР°РєРµС‚Р°.
 {
-	int pSize = emptyFlap(packet,1); // Отправлять будем по каналу 1
-	// Сначала в пакет заливаются просто 4 байта, без TLV
+	int pSize = emptyFlap(packet,1); // РћС‚РїСЂР°РІР»СЏС‚СЊ Р±СѓРґРµРј РїРѕ РєР°РЅР°Р»Сѓ 1
+	// РЎРЅР°С‡Р°Р»Р° РІ РїР°РєРµС‚ Р·Р°Р»РёРІР°СЋС‚СЃСЏ РїСЂРѕСЃС‚Рѕ 4 Р±Р°Р№С‚Р°, Р±РµР· TLV
 	pSize = addData(packet,protocolNumber,pSize);
 	// UIN (TLV 1)
 	array<Byte>^ tlv = gcnew array<Byte>(UIN->Length);
@@ -595,7 +595,7 @@ int CommonClass::createCLI_IDENT(array<Byte>^ packet)
 		tlv[i] = clientID[i];
 	pSize = addTlv(packet,3,tlv,pSize);
 	// Client ID (TLV 0x16)
-	// TODO: Тут надо будет написать нечто значимое
+	// TODO: РўСѓС‚ РЅР°РґРѕ Р±СѓРґРµС‚ РЅР°РїРёСЃР°С‚СЊ РЅРµС‡С‚Рѕ Р·РЅР°С‡РёРјРѕРµ
 	tlv = gcnew array<Byte>{0x00, 0x01};
 	pSize = addTlv(packet,0x16,tlv,pSize);
 	// Client major version (TLV 0x17)
@@ -607,14 +607,14 @@ int CommonClass::createCLI_IDENT(array<Byte>^ packet)
 	// Client lesser version (TLV 0x19)
 	tlv = gcnew array<Byte>{0x00,0x00};
 	pSize = addTlv(packet,0x19,tlv,pSize);
-	// Сlient build number (TLV 0x1A)
+	// РЎlient build number (TLV 0x1A)
 	tlv = gcnew array<Byte>{0x00,0x02};
 	pSize = addTlv(packet,0x1A,tlv,pSize);
 	// Distribution number (TLV 0x14)
 	tlv = gcnew array<Byte>{0x00,0x00,0x00,0x01};
 	pSize = addTlv(packet,0x14,tlv,pSize);
 	// Client language (TLV 0x0F)
-	// Возьмём эти 2 поля как в примерах
+	// Р’РѕР·СЊРјС‘Рј СЌС‚Рё 2 РїРѕР»СЏ РєР°Рє РІ РїСЂРёРјРµСЂР°С…
 	tlv = gcnew array<Byte>{'e','n'};
 	pSize = addTlv(packet,0x0F,tlv,pSize);
 	// Client country (TLV 0x0E)
@@ -624,27 +624,27 @@ int CommonClass::createCLI_IDENT(array<Byte>^ packet)
 }
 
 int CommonClass::createCLI_COOKIE(array<Byte>^ packet)
-// Формирует пакет CLI_COOKIE (нужен для передачи серверу от логин-сервера).
-// Возвращает размер пакета.
+// Р¤РѕСЂРјРёСЂСѓРµС‚ РїР°РєРµС‚ CLI_COOKIE (РЅСѓР¶РµРЅ РґР»СЏ РїРµСЂРµРґР°С‡Рё СЃРµСЂРІРµСЂСѓ РѕС‚ Р»РѕРіРёРЅ-СЃРµСЂРІРµСЂР°).
+// Р’РѕР·РІСЂР°С‰Р°РµС‚ СЂР°Р·РјРµСЂ РїР°РєРµС‚Р°.
 {
-	int pSize = emptyFlap(packet,1); // Отправлять будем по каналу 1
-	// Сначала в пакет заливаются просто 4 байта, без TLV
+	int pSize = emptyFlap(packet,1); // РћС‚РїСЂР°РІР»СЏС‚СЊ Р±СѓРґРµРј РїРѕ РєР°РЅР°Р»Сѓ 1
+	// РЎРЅР°С‡Р°Р»Р° РІ РїР°РєРµС‚ Р·Р°Р»РёРІР°СЋС‚СЃСЏ РїСЂРѕСЃС‚Рѕ 4 Р±Р°Р№С‚Р°, Р±РµР· TLV
 	pSize = addData(packet,protocolNumber,pSize);
 	// Cookie (TLV 6)
 	pSize = addTlv(packet,6,cookie,pSize);
-	// Теперь массив cookie нам не нужен, так что уберём его
+	// РўРµРїРµСЂСЊ РјР°СЃСЃРёРІ cookie РЅР°Рј РЅРµ РЅСѓР¶РµРЅ, С‚Р°Рє С‡С‚Рѕ СѓР±РµСЂС‘Рј РµРіРѕ
 	cookie = nullptr;
 	return pSize;
 }
 
 int CommonClass::createCLI_SETxSTATUS(array<Byte>^ packet)
-// Формирует пакет CLI_SETxSTATUS: статус, протокол и прочая инфа.
-// Возвращает размер пакета.
+// Р¤РѕСЂРјРёСЂСѓРµС‚ РїР°РєРµС‚ CLI_SETxSTATUS: СЃС‚Р°С‚СѓСЃ, РїСЂРѕС‚РѕРєРѕР» Рё РїСЂРѕС‡Р°СЏ РёРЅС„Р°.
+// Р’РѕР·РІСЂР°С‰Р°РµС‚ СЂР°Р·РјРµСЂ РїР°РєРµС‚Р°.
 {
 	int pSize = makeSnac(packet,0x01,0x1E,0x00,0x00);
-	array<Byte>^ tlv = gcnew array<Byte>{0,0,0,0}; // Временно; статус "онлайн" без всяких фишег.
+	array<Byte>^ tlv = gcnew array<Byte>{0,0,0,0}; // Р’СЂРµРјРµРЅРЅРѕ; СЃС‚Р°С‚СѓСЃ "РѕРЅР»Р°Р№РЅ" Р±РµР· РІСЃСЏРєРёС… С„РёС€РµРі.
 	pSize = addTlv(packet,0x06,tlv,pSize);
-	// Далее могут последовать ещё TLV, но не в этот раз
+	// Р”Р°Р»РµРµ РјРѕРіСѓС‚ РїРѕСЃР»РµРґРѕРІР°С‚СЊ РµС‰С‘ TLV, РЅРѕ РЅРµ РІ СЌС‚РѕС‚ СЂР°Р·
 	return pSize;
 }
 
@@ -681,10 +681,10 @@ int CommonClass::createCLI_SEND_ICBM_CH1(array<Byte>^ packet, String^ toWho, arr
 	tlv[2] = 0x00;
 	tlv[3] = 0x01;
 	tlv[4] = 0x01;
-	// Это был fragment identifier (array of required capabilities)
+	// Р­С‚Рѕ Р±С‹Р» fragment identifier (array of required capabilities)
 	tlv[5] = 0x01;
 	tlv[6] = 0x01;
-	// Длина оставшегося сообщения
+	// Р”Р»РёРЅР° РѕСЃС‚Р°РІС€РµРіРѕСЃСЏ СЃРѕРѕР±С‰РµРЅРёСЏ
 	tlv[7] = (messageToSend->Length + 4) / 0x100;
 	tlv[8] = (messageToSend->Length + 4) - tlv[7] * 0x100;
 	// Charset number, lang. number
@@ -695,7 +695,7 @@ int CommonClass::createCLI_SEND_ICBM_CH1(array<Byte>^ packet, String^ toWho, arr
 	int offset = 13;
 	for(int i = 0; i < messageToSend->Length; i ++)
 		tlv[offset + i] = messageToSend[i];
-	// Не знаю, должна ли строка быть NULL-terminated, но надеюсь, что хуже от этого не будет... Да поможет нам Дух Машины.
+	// РќРµ Р·РЅР°СЋ, РґРѕР»Р¶РЅР° Р»Рё СЃС‚СЂРѕРєР° Р±С‹С‚СЊ NULL-terminated, РЅРѕ РЅР°РґРµСЋСЃСЊ, С‡С‚Рѕ С…СѓР¶Рµ РѕС‚ СЌС‚РѕРіРѕ РЅРµ Р±СѓРґРµС‚... Р”Р° РїРѕРјРѕР¶РµС‚ РЅР°Рј Р”СѓС… РњР°С€РёРЅС‹.
 	pSize = addTlv(packet,2,tlv,pSize);
 	if(sendOffline)
 	{

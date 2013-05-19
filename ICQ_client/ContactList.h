@@ -1,4 +1,4 @@
-#pragma once
+п»ї#pragma once
 
 #include "Protocol_low_lvl.h"
 #include "GlobalOptions.h"
@@ -87,7 +87,7 @@ namespace ICQ_client {
 			// 
 			this->comboBox1->DropDownStyle = System::Windows::Forms::ComboBoxStyle::DropDownList;
 			this->comboBox1->FormattingEnabled = true;
-			this->comboBox1->Items->AddRange(gcnew cli::array< System::Object^  >(2) {L"В сети", L"Отключен"});
+			this->comboBox1->Items->AddRange(gcnew cli::array< System::Object^  >(2) {L"Р’ СЃРµС‚Рё", L"РћС‚РєР»СЋС‡РµРЅ"});
 			this->comboBox1->Location = System::Drawing::Point(12, 126);
 			this->comboBox1->Name = L"comboBox1";
 			this->comboBox1->Size = System::Drawing::Size(145, 21);
@@ -109,12 +109,12 @@ namespace ICQ_client {
 		}
 #pragma endregion
 
-/*public: static ContactList^ form; // Ссылка на форму внутри неё самой. Всё гениальное просто ;)
+/*public: static ContactList^ form; // РЎСЃС‹Р»РєР° РЅР° С„РѕСЂРјСѓ РІРЅСѓС‚СЂРё РЅРµС‘ СЃР°РјРѕР№. Р’СЃС‘ РіРµРЅРёР°Р»СЊРЅРѕРµ РїСЂРѕСЃС‚Рѕ ;)
 public: static CommonClass^ common;*/
 
 /*private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e)
 {
-	// Отправка сообщения. Кодируем строку а остальное сделает функция создания пакета
+	// РћС‚РїСЂР°РІРєР° СЃРѕРѕР±С‰РµРЅРёСЏ. РљРѕРґРёСЂСѓРµРј СЃС‚СЂРѕРєСѓ Р° РѕСЃС‚Р°Р»СЊРЅРѕРµ СЃРґРµР»Р°РµС‚ С„СѓРЅРєС†РёСЏ СЃРѕР·РґР°РЅРёСЏ РїР°РєРµС‚Р°
 	array<Byte>^ msg = gcnew array<Byte>(textBox2->Text->Length);
 	for(int i = 0; i < textBox2->Text->Length; i++)
 		msg[i] = textBox2->Text[i];
@@ -128,7 +128,7 @@ public: static CommonClass^ common;*/
 			 }*/
 private: System::Void ContactList_Load(System::Object^  sender, System::EventArgs^  e)
 {
-	// Считываем последний статус и, если это не оффлайн, подключаемся и устанавливаем его.
+	// РЎС‡РёС‚С‹РІР°РµРј РїРѕСЃР»РµРґРЅРёР№ СЃС‚Р°С‚СѓСЃ Рё, РµСЃР»Рё СЌС‚Рѕ РЅРµ РѕС„С„Р»Р°Р№РЅ, РїРѕРґРєР»СЋС‡Р°РµРјСЃСЏ Рё СѓСЃС‚Р°РЅР°РІР»РёРІР°РµРј РµРіРѕ.
 	IniFile^ pOptions = gcnew IniFile(GlobalOptions::profilePath + "\\options.ini"); 
 }
 };

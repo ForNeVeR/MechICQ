@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 ref class MainClass
 {

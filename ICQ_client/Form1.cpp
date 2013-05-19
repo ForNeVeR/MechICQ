@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "Form1.h"
 #include "FORMS.h"
 
@@ -15,36 +15,36 @@ Void Form1::button1_Click(System::Object^  sender, System::EventArgs^  e)
 	case LS_DISCONNECTED:
 		try
 		{
-			// Èíèöèàëèçèðóåì ïîòîê
+			// Ð˜Ð½Ð¸Ñ†Ð¸Ð°Ð»Ð¸Ð·Ð¸Ñ€ÑƒÐµÐ¼ Ð¿Ð¾Ñ‚Ð¾Ðº
 			common->mHandler = gcnew Thread(gcnew ThreadStart(&common->mHandling));
-			// Îòêðûâàåì ëîãôàéë
+			// ÐžÑ‚ÐºÑ€Ñ‹Ð²Ð°ÐµÐ¼ Ð»Ð¾Ð³Ñ„Ð°Ð¹Ð»
 			if(common->log)
 				common->log->Close();
 			common->log = gcnew StreamWriter("logfile.txt",false,Encoding::GetEncoding(1251));
 			common->log->AutoFlush = true;
-			// Ïîäêëþ÷åíèå ê ñåðâåðó login.icq.com
+			// ÐŸÐ¾Ð´ÐºÐ»ÑŽÑ‡ÐµÐ½Ð¸Ðµ Ðº ÑÐµÑ€Ð²ÐµÑ€Ñƒ login.icq.com
 			common->UIN = textBox1->Text;
 			common->password = textBox2->Text;
 			common->loginStatus = LS_LOGIN;
 			common->loginClient = gcnew TcpClient(common->loginServerName,common->loginServerPort);
-			// Çàïóñêàåì ïîòîê íà ïðîñëóøêó ïîñòóïàþùèõ ïàêåòîâ
+			// Ð—Ð°Ð¿ÑƒÑÐºÐ°ÐµÐ¼ Ð¿Ð¾Ñ‚Ð¾Ðº Ð½Ð° Ð¿Ñ€Ð¾ÑÐ»ÑƒÑˆÐºÑƒ Ð¿Ð¾ÑÑ‚ÑƒÐ¿Ð°ÑŽÑ‰Ð¸Ñ… Ð¿Ð°ÐºÐµÑ‚Ð¾Ð²
 			common->server = common->loginClient->GetStream();
 			common->mHandler->Start();
 			timer1->Enabled = true;
-			button1->Text = "Ïðåðâàòü";
+			button1->Text = "ÐŸÑ€ÐµÑ€Ð²Ð°Ñ‚ÑŒ";
 		}
 		catch(Exception^ e)
 		{
-			common->log->WriteLine("----------\nÎøèáêà ïîäêëþ÷åíèÿ. Ïîäêëþ÷åíèå îòìåíåíî.");
+			common->log->WriteLine("----------\nÐžÑˆÐ¸Ð±ÐºÐ° Ð¿Ð¾Ð´ÐºÐ»ÑŽÑ‡ÐµÐ½Ð¸Ñ. ÐŸÐ¾Ð´ÐºÐ»ÑŽÑ‡ÐµÐ½Ð¸Ðµ Ð¾Ñ‚Ð¼ÐµÐ½ÐµÐ½Ð¾.");
 			common->log->Close();
 			common->mHandler->Abort();
-			logStatusLabel->Text = "Îòêëþ÷åíî";
+			logStatusLabel->Text = "ÐžÑ‚ÐºÐ»ÑŽÑ‡ÐµÐ½Ð¾";
 			timer1->Enabled = false;
 			progressBar1->Value = 0;
-			button1->Text = "Ïîäêëþ÷èòüñÿ";
+			button1->Text = "ÐŸÐ¾Ð´ÐºÐ»ÑŽÑ‡Ð¸Ñ‚ÑŒÑÑ";
 			common->loginStatus = LS_DISCONNECTED;
 			common->loginStage = 0;
-			MessageBox::Show("Ïîäêëþ÷åíèå ê ñåðâåðó íå óäàëîñü. Ñîîáùåíèå îá îøèáêå: " + e->Message,"Îøèáêà ïîäêëþ÷åíèÿ",MessageBoxButtons::OK, MessageBoxIcon::Exclamation);
+			MessageBox::Show("ÐŸÐ¾Ð´ÐºÐ»ÑŽÑ‡ÐµÐ½Ð¸Ðµ Ðº ÑÐµÑ€Ð²ÐµÑ€Ñƒ Ð½Ðµ ÑƒÐ´Ð°Ð»Ð¾ÑÑŒ. Ð¡Ð¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ðµ Ð¾Ð± Ð¾ÑˆÐ¸Ð±ÐºÐµ: " + e->Message,"ÐžÑˆÐ¸Ð±ÐºÐ° Ð¿Ð¾Ð´ÐºÐ»ÑŽÑ‡ÐµÐ½Ð¸Ñ",MessageBoxButtons::OK, MessageBoxIcon::Exclamation);
 		}
 		break;
 	case LS_LOGIN:
@@ -52,13 +52,13 @@ Void Form1::button1_Click(System::Object^  sender, System::EventArgs^  e)
 	case LS_REALSERVER:
 	case LS_CONNECTED:
 		common->serverClient->Client->Disconnect(false);
-		common->log->WriteLine("----------\nÎòêëþ÷èëèñü îò ñåðâåðà.");
+		common->log->WriteLine("----------\nÐžÑ‚ÐºÐ»ÑŽÑ‡Ð¸Ð»Ð¸ÑÑŒ Ð¾Ñ‚ ÑÐµÑ€Ð²ÐµÑ€Ð°.");
 		common->log->Close();
 		common->mHandler->Abort();
-		logStatusLabel->Text = "Îòêëþ÷åíî";
+		logStatusLabel->Text = "ÐžÑ‚ÐºÐ»ÑŽÑ‡ÐµÐ½Ð¾";
 		timer1->Enabled = false;
 		progressBar1->Value = 0;
-		button1->Text = "Ïîäêëþ÷èòüñÿ";
+		button1->Text = "ÐŸÐ¾Ð´ÐºÐ»ÑŽÑ‡Ð¸Ñ‚ÑŒÑÑ";
 		common->loginStatus = LS_DISCONNECTED;
 		common->loginStage = 0;
 	}

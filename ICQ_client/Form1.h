@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "Protocol_low_lvl.h"
 
@@ -97,7 +97,7 @@ namespace ICQ_client {
 			this->button1->Name = L"button1";
 			this->button1->Size = System::Drawing::Size(162, 23);
 			this->button1->TabIndex = 0;
-			this->button1->Text = L"Ïîäêëş÷èòüñÿ";
+			this->button1->Text = L"ĞŸĞ¾Ğ´ĞºĞ»ÑÑ‡Ğ¸Ñ‚ÑŒÑÑ";
 			this->button1->UseVisualStyleBackColor = true;
 			this->button1->Click += gcnew System::EventHandler(this, &Form1::button1_Click);
 			// 
@@ -141,7 +141,7 @@ namespace ICQ_client {
 			this->logStatusLabel->Name = L"logStatusLabel";
 			this->logStatusLabel->Size = System::Drawing::Size(162, 17);
 			this->logStatusLabel->TabIndex = 5;
-			this->logStatusLabel->Text = L"Îòêëş÷åíî";
+			this->logStatusLabel->Text = L"ĞÑ‚ĞºĞ»ÑÑ‡ĞµĞ½Ğ¾";
 			this->logStatusLabel->TextAlign = System::Drawing::ContentAlignment::TopCenter;
 			// 
 			// progressBar1
@@ -186,36 +186,36 @@ public: CommonClass^ common;
 	case LS_DISCONNECTED:
 		try
 		{
-			// Èíèöèàëèçèğóåì ïîòîê
+			// Ğ˜Ğ½Ğ¸Ñ†Ğ¸Ğ°Ğ»Ğ¸Ğ·Ğ¸Ñ€ÑƒĞµĞ¼ Ğ¿Ğ¾Ñ‚Ğ¾Ğº
 			common->mHandler = gcnew Thread(gcnew ThreadStart(&common->mHandling));
-			// Îòêğûâàåì ëîãôàéë
+			// ĞÑ‚ĞºÑ€Ñ‹Ğ²Ğ°ĞµĞ¼ Ğ»Ğ¾Ğ³Ñ„Ğ°Ğ¹Ğ»
 			if(common->log)
 				common->log->Close();
 			common->log = gcnew StreamWriter("logfile.txt",false,Encoding::GetEncoding(1251));
 			common->log->AutoFlush = true;
-			// Ïîäêëş÷åíèå ê ñåğâåğó login.icq.com
+			// ĞŸĞ¾Ğ´ĞºĞ»ÑÑ‡ĞµĞ½Ğ¸Ğµ Ğº ÑĞµÑ€Ğ²ĞµÑ€Ñƒ login.icq.com
 			common->UIN = textBox1->Text;
 			common->password = textBox2->Text;
 			common->loginStatus = LS_LOGIN;
 			common->loginClient = gcnew TcpClient(common->loginServerName,common->loginServerPort);
-			// Çàïóñêàåì ïîòîê íà ïğîñëóøêó ïîñòóïàşùèõ ïàêåòîâ
+			// Ğ—Ğ°Ğ¿ÑƒÑĞºĞ°ĞµĞ¼ Ğ¿Ğ¾Ñ‚Ğ¾Ğº Ğ½Ğ° Ğ¿Ñ€Ğ¾ÑĞ»ÑƒÑˆĞºÑƒ Ğ¿Ğ¾ÑÑ‚ÑƒĞ¿Ğ°ÑÑ‰Ğ¸Ñ… Ğ¿Ğ°ĞºĞµÑ‚Ğ¾Ğ²
 			common->server = common->loginClient->GetStream();
 			common->mHandler->Start();
 			timer1->Enabled = true;
-			button1->Text = "Ïğåğâàòü";
+			button1->Text = "ĞŸÑ€ĞµÑ€Ğ²Ğ°Ñ‚ÑŒ";
 		}
 		catch(Exception^ e)
 		{
-			common->log->WriteLine("----------\nÎøèáêà ïîäêëş÷åíèÿ. Ïîäêëş÷åíèå îòìåíåíî.");
+			common->log->WriteLine("----------\nĞÑˆĞ¸Ğ±ĞºĞ° Ğ¿Ğ¾Ğ´ĞºĞ»ÑÑ‡ĞµĞ½Ğ¸Ñ. ĞŸĞ¾Ğ´ĞºĞ»ÑÑ‡ĞµĞ½Ğ¸Ğµ Ğ¾Ñ‚Ğ¼ĞµĞ½ĞµĞ½Ğ¾.");
 			common->log->Close();
 			common->mHandler->Abort();
-			logStatusLabel->Text = "Îòêëş÷åíî";
+			logStatusLabel->Text = "ĞÑ‚ĞºĞ»ÑÑ‡ĞµĞ½Ğ¾";
 			timer1->Enabled = false;
 			progressBar1->Value = 0;
-			button1->Text = "Ïîäêëş÷èòüñÿ";
+			button1->Text = "ĞŸĞ¾Ğ´ĞºĞ»ÑÑ‡Ğ¸Ñ‚ÑŒÑÑ";
 			common->loginStatus = LS_DISCONNECTED;
 			common->loginStage = 0;
-			MessageBox::Show("Ïîäêëş÷åíèå ê ñåğâåğó íå óäàëîñü. Ñîîáùåíèå îá îøèáêå: " + e->Message,"Îøèáêà ïîäêëş÷åíèÿ",MessageBoxButtons::OK, MessageBoxIcon::Exclamation);
+			MessageBox::Show("ĞŸĞ¾Ğ´ĞºĞ»ÑÑ‡ĞµĞ½Ğ¸Ğµ Ğº ÑĞµÑ€Ğ²ĞµÑ€Ñƒ Ğ½Ğµ ÑƒĞ´Ğ°Ğ»Ğ¾ÑÑŒ. Ğ¡Ğ¾Ğ¾Ğ±Ñ‰ĞµĞ½Ğ¸Ğµ Ğ¾Ğ± Ğ¾ÑˆĞ¸Ğ±ĞºĞµ: " + e->Message,"ĞÑˆĞ¸Ğ±ĞºĞ° Ğ¿Ğ¾Ğ´ĞºĞ»ÑÑ‡ĞµĞ½Ğ¸Ñ",MessageBoxButtons::OK, MessageBoxIcon::Exclamation);
 		}
 		break;
 	case LS_LOGIN:
@@ -223,13 +223,13 @@ public: CommonClass^ common;
 	case LS_REALSERVER:
 	case LS_CONNECTED:
 		common->serverClient->Client->Disconnect(false);
-		common->log->WriteLine("----------\nÎòêëş÷èëèñü îò ñåğâåğà.");
+		common->log->WriteLine("----------\nĞÑ‚ĞºĞ»ÑÑ‡Ğ¸Ğ»Ğ¸ÑÑŒ Ğ¾Ñ‚ ÑĞµÑ€Ğ²ĞµÑ€Ğ°.");
 		common->log->Close();
 		common->mHandler->Abort();
-		logStatusLabel->Text = "Îòêëş÷åíî";
+		logStatusLabel->Text = "ĞÑ‚ĞºĞ»ÑÑ‡ĞµĞ½Ğ¾";
 		timer1->Enabled = false;
 		progressBar1->Value = 0;
-		button1->Text = "Ïîäêëş÷èòüñÿ";
+		button1->Text = "ĞŸĞ¾Ğ´ĞºĞ»ÑÑ‡Ğ¸Ñ‚ÑŒÑÑ";
 		common->loginStatus = LS_DISCONNECTED;
 		common->loginStage = 0;
 	}
@@ -238,11 +238,11 @@ private: System::Void button1_Click(System::Object^  sender, System::EventArgs^ 
 
 private: System::Void Form1_Load(System::Object^  sender, System::EventArgs^  e)
 {
-	// Èíèöèàëèçàöèÿ êîìïîíåíòîâ
+	// Ğ˜Ğ½Ğ¸Ñ†Ğ¸Ğ°Ğ»Ğ¸Ğ·Ğ°Ñ†Ğ¸Ñ ĞºĞ¾Ğ¼Ğ¿Ğ¾Ğ½ĞµĞ½Ñ‚Ğ¾Ğ²
 	progressBar1->Maximum = common->TotalLoginStages;
 }
 
-// Ôóíêöèè êîíòğîëÿ îáíîâëåíèÿ îêîøêà
+// Ğ¤ÑƒĞ½ĞºÑ†Ğ¸Ğ¸ ĞºĞ¾Ğ½Ñ‚Ñ€Ğ¾Ğ»Ñ Ğ¾Ğ±Ğ½Ğ¾Ğ²Ğ»ĞµĞ½Ğ¸Ñ Ğ¾ĞºĞ¾ÑˆĞºĞ°
 
 private: System::Void timer1_Tick(System::Object^  sender, System::EventArgs^  e)
 {
@@ -250,7 +250,7 @@ private: System::Void timer1_Tick(System::Object^  sender, System::EventArgs^  e
 	{
 	case LS_DISCONNECTED:
 		common->loginStage = 0;
-		logStatusLabel->Text = "Îòêëş÷åíî";
+		logStatusLabel->Text = "ĞÑ‚ĞºĞ»ÑÑ‡ĞµĞ½Ğ¾";
 		common->mHandler->Abort();
 		progressBar1->Value = 0;
 		timer1->Enabled = false;
@@ -260,13 +260,13 @@ private: System::Void timer1_Tick(System::Object^  sender, System::EventArgs^  e
 		{
 			progressBar1->Value = common->loginStage;
 			int percent =  100 * (float) common->loginStage / common->TotalLoginStages;
-			logStatusLabel->Text = "Ïîäêëş÷åíèå... (" + percent + "%)";
+			logStatusLabel->Text = "ĞŸĞ¾Ğ´ĞºĞ»ÑÑ‡ĞµĞ½Ğ¸Ğµ... (" + percent + "%)";
 			break;
 		}
 	case LS_CONNECTED:
-		logStatusLabel->Text = "Ïîäêëş÷åíî";
+		logStatusLabel->Text = "ĞŸĞ¾Ğ´ĞºĞ»ÑÑ‡ĞµĞ½Ğ¾";
 		progressBar1->Value = progressBar1->Maximum;
-		button1->Text = "Îòêëş÷èòüñÿ";
+		button1->Text = "ĞÑ‚ĞºĞ»ÑÑ‡Ğ¸Ñ‚ÑŒÑÑ";
 		timer1->Enabled = false;
 		break;
 	}

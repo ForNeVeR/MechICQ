@@ -1,11 +1,11 @@
-#pragma once
+п»ї#pragma once
 
 //#include "Form1.h"
 //#include "ContactList.h"
 //#include "CommonClass.cpp"
 
 //#include "MHeader.h"
-// Для loginStatus
+// Р”Р»СЏ loginStatus
 #define LS_DISCONNECTED 0
 #define LS_LOGIN 1
 #define LS_REALSERVER 2
@@ -21,27 +21,27 @@ using namespace System::Threading;
 
 public ref class CommonClass
 {
-	// Конструктор
+	// РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
 	public: CommonClass();
 
-	// === Протокольная часть ===
+	// === РџСЂРѕС‚РѕРєРѕР»СЊРЅР°СЏ С‡Р°СЃС‚СЊ ===
 
-	// Константы
+	// РљРѕРЅСЃС‚Р°РЅС‚С‹
 	static String^ clientID = "Mechanicum 0.1";
 	static String^ loginServerName = "login.icq.com";
 	static TcpClient^ loginClient;
 	static TcpClient^ serverClient;
 	static int loginServerPort = 5190;
-	static int PacketSize = 65542; // 65542 = 64 кб (пакет) + 6 байт (FLAP-заголовок).
+	static int PacketSize = 65542; // 65542 = 64 РєР± (РїР°РєРµС‚) + 6 Р±Р°Р№С‚ (FLAP-Р·Р°РіРѕР»РѕРІРѕРє).
 	static int SEQNUM_RESET_VALUE = 0xFFFF; // 0x8000 ?
-	static array<Byte>^ protocolNumber = gcnew array<Byte>{0x00, 0x00, 0x00, 0x01}; // Номер протокола? Везде в примерах 1, так что не станем испытывать судьбу
+	static array<Byte>^ protocolNumber = gcnew array<Byte>{0x00, 0x00, 0x00, 0x01}; // РќРѕРјРµСЂ РїСЂРѕС‚РѕРєРѕР»Р°? Р’РµР·РґРµ РІ РїСЂРёРјРµСЂР°С… 1, С‚Р°Рє С‡С‚Рѕ РЅРµ СЃС‚Р°РЅРµРј РёСЃРїС‹С‚С‹РІР°С‚СЊ СЃСѓРґСЊР±Сѓ
 	static array<Byte>^ capabilities = gcnew array<Byte>
 		{0x09, 0x46, 0x13, 0x49, 0x4C, 0x7F, 0x11, 0xD1, 0x82, 0x22, 0x44, 0x45, 0x53, 0x54, 0x00, 0x00}; // Client supports channel 2 extended, TLV(0x2711) based messages.
 		 //0x09, 0x46, 0x13, 0x4E, 0x4C, 0x7F, 0x11, 0xD1, 0x82, 0x22, 0x44, 0x45, 0x53, 0x54, 0x00, 0x00}; // UTF-8
-	static int TotalLoginStages = 17; // Пара переменных для показа процентов логина
+	static int TotalLoginStages = 17; // РџР°СЂР° РїРµСЂРµРјРµРЅРЅС‹С… РґР»СЏ РїРѕРєР°Р·Р° РїСЂРѕС†РµРЅС‚РѕРІ Р»РѕРіРёРЅР°
 
-	// Переменные
-	// Структура rate-limits
+	// РџРµСЂРµРјРµРЅРЅС‹Рµ
+	// РЎС‚СЂСѓРєС‚СѓСЂР° rate-limits
 	static int classCount;
 	static array<int>^ rID;
 	static array<int>^ windowSize;
@@ -52,16 +52,16 @@ public ref class CommonClass
 	static array<int>^ current;
 	static array<int>^ max;
 	static array<int,2>^ snacPairs;
-	static array<long long>^ lastTime; // Время последней отправки пакета
+	static array<long long>^ lastTime; // Р’СЂРµРјСЏ РїРѕСЃР»РµРґРЅРµР№ РѕС‚РїСЂР°РІРєРё РїР°РєРµС‚Р°
 
 	static int loginStage = 0;
 	static String^ UIN;
 	static String^ password;
 	static NetworkStream^ server;
 	static StreamWriter^ log;
-	static int seqNum; // Наш sequence number, должен заливаться во все исходящие пакеты
-	static int serverSeqNum; // SeqNum пакетов, присылаемых сервером; нужен для контроля, не потеряли ли мы чего-либо
-	static bool connectedToServer; // Если connected (т.е. получили от сервера SRV_HELLO), то следим за serverSeqNum
+	static int seqNum; // РќР°С€ sequence number, РґРѕР»Р¶РµРЅ Р·Р°Р»РёРІР°С‚СЊСЃСЏ РІРѕ РІСЃРµ РёСЃС…РѕРґСЏС‰РёРµ РїР°РєРµС‚С‹
+	static int serverSeqNum; // SeqNum РїР°РєРµС‚РѕРІ, РїСЂРёСЃС‹Р»Р°РµРјС‹С… СЃРµСЂРІРµСЂРѕРј; РЅСѓР¶РµРЅ РґР»СЏ РєРѕРЅС‚СЂРѕР»СЏ, РЅРµ РїРѕС‚РµСЂСЏР»Рё Р»Рё РјС‹ С‡РµРіРѕ-Р»РёР±Рѕ
+	static bool connectedToServer; // Р•СЃР»Рё connected (С‚.Рµ. РїРѕР»СѓС‡РёР»Рё РѕС‚ СЃРµСЂРІРµСЂР° SRV_HELLO), С‚Рѕ СЃР»РµРґРёРј Р·Р° serverSeqNum
 	static int loginStatus;
 	static array<Byte>^ cookie;
 	static array<int>^ supportedSnacs;
@@ -71,7 +71,7 @@ public ref class CommonClass
 	static int maxWLSize; // WL = watcher list
 	static Thread^ mHandler;
 
-	// Функции
+	// Р¤СѓРЅРєС†РёРё
 	public: static String^ hexNumber(Byte byte);
 	public: static bool flapHeaderOk(array<Byte>^ header);
 	public: static int getTlv(array<Byte>^ packet, int pSize, int typeOfTlv, int offset);
@@ -87,15 +87,15 @@ public ref class CommonClass
 	public: static int createCLI_SETxSTATUS(array<Byte>^ packet);
 	public: static int createCLI_SEND_ICBM_CH1(array<Byte>^ packet, String^ toWho, array<Byte>^ messageToSend, bool sendOffline);
 
-/*	// === Оконная часть ===
+/*	// === РћРєРѕРЅРЅР°СЏ С‡Р°СЃС‚СЊ ===
 
-	// Константы
+	// РљРѕРЅСЃС‚Р°РЅС‚С‹
 
-	// Переменные
+	// РџРµСЂРµРјРµРЅРЅС‹Рµ
 //	public: static Form1^ form1;
 //	public: static ContactList^ contactList;
 
-	// Функции
+	// Р¤СѓРЅРєС†РёРё
 	public: static System::Void updateLoginBar();
 	public: static System::Void terminate();*/
 };
