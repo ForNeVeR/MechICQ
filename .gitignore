@@ -1,2 +1,4 @@
-*.sdf
-*.opensdf
+/*.sdf
+/*.opensdf
+/Debug/
+/ICQ_client/Debug/

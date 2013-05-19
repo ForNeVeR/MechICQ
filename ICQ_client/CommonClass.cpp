@@ -1,7 +1,7 @@
 #pragma once
 
 #include "stdafx.cpp"
-#include "CommonClass.h"
+#include "Protocol_low_lvl.h"
 
 using namespace System;
 using namespace System::Text;
