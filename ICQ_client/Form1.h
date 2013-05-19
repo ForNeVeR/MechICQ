@@ -178,7 +178,6 @@ namespace ICQ_client {
 #pragma endregion
 
 public: CommonClass^ common;
-public: static Form1^ form; // Ссылка на форму внутри неё самой. Всё гениальное просто ;)
 
 /*private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e)
 {
@@ -266,7 +265,7 @@ private: System::Void timer1_Tick(System::Object^  sender, System::EventArgs^  e
 		}
 	case LS_CONNECTED:
 		logStatusLabel->Text = "Подключено";
-		progressBar1->Value = Form1::form->progressBar1->Maximum;
+		progressBar1->Value = progressBar1->Maximum;
 		button1->Text = "Отключиться";
 		timer1->Enabled = false;
 		break;

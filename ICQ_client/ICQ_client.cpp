@@ -10,6 +10,7 @@
 
 #include "stdafx.h"
 
+#include "Form1.h"
 #include "Forms.h"
 #include "GlobalOptions.h"
 #include "IniFile.h"
@@ -57,8 +58,9 @@ int main(array<System::String ^> ^args)
 		FORMS::profileChooser = gcnew ProfileChooser();
 		FORMS::profileChooser->Show();
 	}
+
 	// Переводим программу в рабочий режим
-	Application::Run();
+	Application::Run(gcnew Form1());
 
 	return 0;
 }
