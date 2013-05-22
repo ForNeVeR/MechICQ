@@ -4,9 +4,9 @@
 	- Кодировка файла - Unicode.
 	- Строки файла игнорируются в следующих случаях:
 	  * игнорируются комментарии (строки, первым не-пробельным символом которых является точка с
-	    запятой ';';
+		запятой ';';
 	  * игнорируются любые строки, не содержащие знака равенства и не являющиеся заголовками
-	    секций.
+		секций.
 	- Пробелы игнорируются в следующих случаях:
 	  * игнорируются пробелы, находящиеся в начале строки;
 	  * игнорируются пробелы после имени элемента, но до знака равенства '=';
@@ -17,7 +17,7 @@
 	ТЕРМИНОЛОГИЯ
 	- Комментарий - строка, начинающаяся с точки с запятой ';'. Пропускается при обработке файла.
 	- Секция - имя, заключённое в квадратные скобки [ и ]. Является как бы "заголовком" для
-      элементов, расположенных на следующих строках. Секция заканчивается с началом следующей или
+	  элементов, расположенных на следующих строках. Секция заканчивается с началом следующей или
 	  с окончанием файла.
 	TODO: Секция может быть объявлена в файле несколько раз; при этом все её включения будут
 		  рассмотрены как одна и та же секция.
@@ -38,8 +38,8 @@
 
 #pragma once
 
-using namespace System::IO;
 using namespace System;
+using namespace System::IO;
 
 ref class IniFile
 {
@@ -233,47 +233,6 @@ ref class IniFile
 		}
 		section->setParam(paramName,paramVal);
 	}
-	// Функция закрытия файла, вносит все изменения в него
-	public: Void Close()
-	{
-		try // Создаём файл, если его не существует
-		{
-			if(!Directory::Exists(Path::GetDirectoryName(this->path)))
-			{
-				// Создаём каталог
-				Directory::CreateDirectory(Path::GetDirectoryName(this->path));
-			}
-			if(!File::Exists(this->path))
-			{
-				// Создаём файл
-				FileStream^ fs = File::Create(this->path);
-				fs->Close();
-			}
-		}
-		catch(Exception^ e)
-		{
-			throw e;
-		}
-		StreamWriter^ ini = gcnew StreamWriter(this->path,false,System::Text::Encoding::Unicode);
-		ini->WriteLine("; Внимание! Данный файл был сгенерирован автоматически и все комментарии и некорректные ключи будут удалены из него при следующем обновлении!");
-		IniSection^ sbuff = firstSection;
-		for(int i = 0; i < sectionCount; i ++)
-		{
-			if(sbuff->name != "")
-			{
-				ini->WriteLine("[" + sbuff->name + "]");
-				IniParam^ pbuff = sbuff->firstParam;
-				for(int j = 0; j < sbuff->paramCount; j ++)
-				{
-					if(pbuff->name != "")
-						ini->WriteLine(pbuff->name + "=" + pbuff->val);
-					if(sbuff->paramCount - j > 0)
-						pbuff = pbuff->next;
-				}
-			}
-			if(sectionCount - i > 0)
-				sbuff = sbuff->next;
-		}
-		ini->Close();
-	}
+	
+	void Save();
 };

@@ -226,10 +226,10 @@ private: System::Void createProfileButton_Click(System::Object^  sender, System:
 	{
 		String^ profileName = profileNameBox->Text;
 		// Заносим UIN в файл настроек профиля
-		IniFile^ pOptions = gcnew IniFile(GlobalOptions::ProgramPath + "\\" + profileName + "\\options.ini"); 
+		auto pOptions = gcnew IniFile(GlobalOptions::ProgramPath + "\\" + profileName + "\\options.ini"); 
 		pOptions->setParameter("Main","UIN",UINBox->Text);
-		pOptions->Close();
-		pOptions = nullptr;
+		pOptions->Save();
+
 		// Заносим профиль в список на экране
 		profileBox->Items->Add(profileNameBox->Text + " / " + UINBox->Text);
 	}

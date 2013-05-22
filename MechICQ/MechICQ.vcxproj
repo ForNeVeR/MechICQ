@@ -112,6 +112,7 @@
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="ContactList.cpp" />
+    <ClCompile Include="IniFile.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="ProfileChooser.cpp" />
     <ClCompile Include="ConnectForm.cpp" />
