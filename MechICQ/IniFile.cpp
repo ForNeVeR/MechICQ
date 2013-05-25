@@ -1,6 +1,5 @@
 #include "IniFile.h"
 
-// Save the file.
 void IniFile::Save()
 {
 	// Create the directory:
@@ -36,5 +35,15 @@ void IniFile::Save()
 		{
 			sbuff = sbuff->next;
 		}
+	}
+}
+
+void IniFile::CleanSection(String ^sectionName)
+{
+	auto section = getSection(sectionName);
+	if (section)
+	{
+		section->firstParam = nullptr;
+		section->paramCount = 0;
 	}
 }

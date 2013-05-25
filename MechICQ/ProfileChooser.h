@@ -29,7 +29,7 @@ namespace MechICQ
 		}
 	
 	private:
-		IniFile^ options;
+		IniFile ^_options;
 
 		void ProfileChooser_Load(System::Object ^sender, System::EventArgs ^e);
 		void ProfileChooser_FormClosing(System::Object ^sender, System::Windows::Forms::FormClosingEventArgs ^e);

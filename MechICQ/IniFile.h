@@ -125,12 +125,10 @@ ref class IniFile
 		}
 		return nullptr;
 	}
-	Void cleanSection(String^ sectionName)
-	{
-		IniSection^ section = getSection(sectionName);
-		section->firstParam = nullptr;
-		section->paramCount = 0;
-	}
+
+	// Clean the specified section if exists.
+	void CleanSection(String ^sectionName);	
+
 	Void cleanFile()
 	{
 		this->firstSection = nullptr;
@@ -223,7 +221,7 @@ ref class IniFile
 			return "";
 		}
 	// Функция записи параметра
-	public: Void setParameter(String^ sectionName, String^ paramName, String^ paramVal)
+	public: Void SetParameter(String^ sectionName, String^ paramName, String^ paramVal)
 	{
 		IniSection^ section = getSection(sectionName);
 		if(!section)
@@ -234,5 +232,6 @@ ref class IniFile
 		section->setParam(paramName,paramVal);
 	}
 	
+	// Save the file.
 	void Save();
 };
