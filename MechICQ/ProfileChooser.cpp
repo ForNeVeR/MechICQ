@@ -38,8 +38,11 @@ void ProfileChooser::ProfileChooser_FormClosing(Object ^sender, FormClosingEvent
 
 void ProfileChooser::deleteProfileButton_Click(Object ^sender, EventArgs ^e)
 {
-	// Функция удаления профиля. Удаляет его из списка на экране.
-	profileBox->Items->RemoveAt(profileBox->SelectedIndex);
+	auto index = profileBox->SelectedIndex;
+	if (index != -1)
+	{
+		profileBox->Items->RemoveAt(index);
+	}
 }
 
 void ProfileChooser::createProfileButton_Click(Object ^sender, EventArgs ^e)
